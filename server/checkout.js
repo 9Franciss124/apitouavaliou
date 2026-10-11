@@ -1,6 +1,7 @@
 // POST /api/checkout  { cliente, endereco, itens, freteId }  ->  { url }
 // Recalcula tudo no servidor (preços e frete) antes de criar a preferência no Mercado Pago.
 const { PRECOS, NOMES, lerItens, subtotal, soDigitos, cepValido, json, cotarFrete } = require('./_lib');
+const db = require('./_db');
 
 const emailOk = (s) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(s || ''));
 const txt = (s, n) => String(s || '').trim().slice(0, n);
@@ -71,6 +72,19 @@ exports.handler = async (event) => {
     });
     const d = await r.json();
     if (!r.ok || !d.init_point) { console.error('mp:', r.status, JSON.stringify(d).slice(0, 400)); return json(502, { erro: 'Não foi possível iniciar o pagamento. Tente de novo.' }); }
+    // Guarda o pedido para o painel (se o banco estiver configurado). Falha aqui não atrapalha a compra.
+    if (db.disponivel()) {
+      try {
+        const reg = {
+          id: pedido, criado: Date.now(), status: 'aguardando', nome, email, whatsapp: tel,
+          cep: soDigitos(e.cep), endereco: preference.metadata.endereco, itens,
+          frete_servico: opcao.nome, frete_valor: opcao.preco, produtos_valor: subtotal(itens),
+          total: Math.round((subtotal(itens) + opcao.preco) * 100) / 100,
+          enviado: false, rastreio: ''
+        };
+        await db.pipeline([['SET', 'ped:' + pedido, JSON.stringify(reg)], ['ZADD', 'peds', String(reg.criado), pedido]]);
+      } catch (err) { console.error('salvar pedido:', err.message); }
+    }
     return json(200, { url: d.init_point, pedido });
   } catch (err) {
     console.error('mp:', err.message);

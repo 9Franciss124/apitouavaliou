@@ -141,7 +141,7 @@ header p{color:#43584f}
 
 <div class="foot">
  <p><b>Como funciona:</b> o cliente encosta o celular na placa NFC da mesa ou do balcão, o cardápio abre e o pedido chega no WhatsApp da pizzaria.</p>
- <p class="chef">Pizzas do chef Ville Della Penna · 310 Noroeste, Brasília · segunda a domingo, 18h30 às 22h30 · @villazza.slice</p>
+ <p class="chef">Pizzas do chef Ville Della Penna · cardápio de exemplo, valores de novembro de 2025 · 310 Noroeste, Brasília · segunda a domingo, 18h30 às 22h30 · @villazza.slice</p>
  <p>Quer um cardápio assim para o seu comércio? <a href="https://wa.me/5585997307346?text=Ol%C3%A1!%20Quero%20uma%20placa%20NFC%20com%20card%C3%A1pio%20digital.">Fale com a gente</a>.</p>
 </div>
 </div>
@@ -175,10 +175,11 @@ header p{color:#43584f}
  function wave(y,col,w){var d='M26 '+y,i;d+=' q 10 -9 20 0';for(i=0;i<6;i++)d+=' t 20 0';return '<path d="'+d+'" fill="none" stroke="'+col+'" stroke-width="'+w+'" stroke-linecap="round"/>'}
  function seeds(y){var p=[[70,-36,-20],[100,-42,5],[130,-36,22],[85,-26,-8],[116,-27,12],[100,-18,0]],s='';p.forEach(function(a){s+='<ellipse cx="'+a[0]+'" cy="'+(y+a[1])+'" rx="5" ry="2.6" transform="rotate('+a[2]+' '+a[0]+' '+(y+a[1])+')" fill="#fbe9c4"/>'});return s}
  var ART={
+  molho:function(o){var s='<ellipse cx="100" cy="184" rx="52" ry="6" fill="rgba(23,38,31,.16)"/>';s+='<path d="M48 98 L152 98 L142 176 Q141 185 132 185 L68 185 Q59 185 58 176 Z" fill="#ffffff" stroke="#d9d4c4" stroke-width="3"/>';s+='<ellipse cx="100" cy="98" rx="52" ry="11" fill="'+o.c+'" stroke="#d9d4c4" stroke-width="3"/><ellipse cx="86" cy="95" rx="18" ry="3.5" fill="rgba(255,255,255,.4)"/>';s+='<path d="M64 120 L68 170" stroke="rgba(0,0,0,.06)" stroke-width="6" stroke-linecap="round"/>';return s},
   pizza:function(o){
    var s='<ellipse cx="100" cy="186" rx="76" ry="7" fill="rgba(23,38,31,.16)"/>';
    s+='<circle cx="100" cy="98" r="86" fill="#e2a04a"/><circle cx="100" cy="98" r="79" fill="#eebb64"/>';
-   s+='<circle cx="100" cy="98" r="72" fill="#c8402a"/><circle cx="100" cy="98" r="68" fill="#f7cf5a"/>';
+   s+='<circle cx="100" cy="98" r="72" fill="#c8402a"/><circle cx="100" cy="98" r="68" fill="'+(o.base||'#f7cf5a')+'"/>';
    s+='<path d="M52 70 q14 -10 28 -3 M118 52 q16 -3 24 8 M62 128 q10 12 26 10 M126 124 q14 -4 20 -16" fill="none" stroke="#f0aa38" stroke-width="5" stroke-linecap="round"/>';
    var P=[[100,56],[136,76],[142,114],[110,142],[68,132],[56,92],[84,84],[116,104],[88,112]];
    if(o.kind==='calabresa'){P.forEach(function(p){s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="11" fill="#a3321f"/><circle cx="'+(p[0]-3)+'" cy="'+(p[1]-3)+'" r="3.4" fill="#c9553e"/><circle cx="'+(p[0]+4)+'" cy="'+(p[1]+4)+'" r="2.4" fill="#7a2216"/>'});
@@ -187,6 +188,10 @@ header p{color:#43584f}
    if(o.kind==='frango'){P.forEach(function(p,k){s+='<ellipse cx="'+p[0]+'" cy="'+p[1]+'" rx="11" ry="7" transform="rotate('+(k*31)+' '+p[0]+' '+p[1]+')" fill="#f6dfae" stroke="#d9b36a" stroke-width="1.5"/>'});
     [[84,70],[122,92],[96,126],[70,108]].forEach(function(p){s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="8" fill="#fffaf0"/><circle cx="'+p[0]+'" cy="'+p[1]+'" r="3" fill="#f6e3a8"/>'});
     [[60,76],[140,100],[110,48]].forEach(function(p){s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="6" fill="#2c3a2e"/><circle cx="'+p[0]+'" cy="'+p[1]+'" r="2.4" fill="#f7cf5a"/>'})}
+   if(o.kind==='choco'){s+='<path d="M50 80 q20 16 40 0 t40 0 t30 -6 M46 112 q22 16 44 0 t44 0 M58 144 q22 14 44 0 t30 -4" fill="none" stroke="#3a1d12" stroke-width="8" stroke-linecap="round"/>'}
+   if(o.kind==='pistache'){P.forEach(function(p){s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="6" fill="#6f9a3c"/>'});s+='<path d="M52 100 q24 14 48 0 t48 0" fill="none" stroke="#fff6e0" stroke-width="6" stroke-linecap="round"/>'}
+   if(o.kind==='banoffe'){P.forEach(function(p){s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="12" fill="#f6e08a" stroke="#d9b24a" stroke-width="2"/><circle cx="'+p[0]+'" cy="'+p[1]+'" r="3" fill="#c9983a"/>'})}
+   if(o.kind==='veg'){P.forEach(function(p,k){s+=(k%2?'<ellipse cx="'+p[0]+'" cy="'+p[1]+'" rx="11" ry="6" transform="rotate('+(k*37)+' '+p[0]+' '+p[1]+')" fill="#8fb552"/>':'<circle cx="'+p[0]+'" cy="'+p[1]+'" r="7" fill="#fff6e0" stroke="#d9c9a0" stroke-width="2"/>')});[[70,70],[132,66],[130,126],[74,124]].forEach(function(p){s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="4" fill="#f2c14e"/>'})}
    if(o.kind==='quatro'){
     s+='<path d="M100 98 L100 30 A68 68 0 0 1 168 98 Z" fill="#fff0c2"/><path d="M100 98 L168 98 A68 68 0 0 1 100 166 Z" fill="#f0a93a"/><path d="M100 98 L100 166 A68 68 0 0 1 32 98 Z" fill="#dfe8bd"/><path d="M100 98 L32 98 A68 68 0 0 1 100 30 Z" fill="#f7cf5a"/>';
     s+='<path d="M100 30 V166 M32 98 H168" stroke="#e2a04a" stroke-width="3"/>';
@@ -202,6 +207,8 @@ header p{color:#43584f}
    if(o.kind==='frango'){P.forEach(function(p,k){s+='<ellipse cx="'+p[0]+'" cy="'+p[1]+'" rx="12" ry="7.5" transform="rotate('+(k*40)+' '+p[0]+' '+p[1]+')" fill="#f6dfae" stroke="#d9b36a" stroke-width="1.5"/>'});s+='<circle cx="104" cy="96" r="8" fill="#fffaf0"/><circle cx="76" cy="112" r="7" fill="#fffaf0"/>'}
    if(o.kind==='choco'){s+='<path d="M52 70 q18 14 36 0 t36 0 t24 -8 M62 104 q18 14 36 0 t30 0 M78 138 q14 10 28 0" fill="none" stroke="#3a1d12" stroke-width="7" stroke-linecap="round"/>'}
    if(o.kind==='pistache'){[[78,80],[122,84],[100,116],[88,140],[112,144]].forEach(function(p){s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="6" fill="#6f9a3c"/>'});s+='<path d="M64 98 q18 12 36 0 t34 0" fill="none" stroke="#fff6e0" stroke-width="5" stroke-linecap="round"/>'}
+   if(o.kind==='banoffe'){P.forEach(function(p){s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="11" fill="#f6e08a" stroke="#d9b24a" stroke-width="2"/><circle cx="'+p[0]+'" cy="'+p[1]+'" r="3" fill="#c9983a"/>'})}
+   if(o.kind==='veg'){P.forEach(function(p,k){s+=(k%2?'<ellipse cx="'+p[0]+'" cy="'+p[1]+'" rx="11" ry="6" transform="rotate('+(k*37)+' '+p[0]+' '+p[1]+')" fill="#8fb552"/>':'<circle cx="'+p[0]+'" cy="'+p[1]+'" r="7" fill="#fff6e0" stroke="#d9c9a0" stroke-width="2"/>')})}
    if(o.kind==='quatro'){s+='<path d="M100 40 V176" stroke="#e2a04a" stroke-width="3"/><path d="M64 98 H140" stroke="#e2a04a" stroke-width="3"/><circle cx="76" cy="76" r="9" fill="#fff0c2"/><circle cx="126" cy="76" r="9" fill="#dfe8bd"/><circle cx="82" cy="122" r="8" fill="#f0a93a"/><circle cx="118" cy="128" r="7" fill="#fff0c2"/>'}
    return s},
   burger:function(o){
@@ -282,55 +289,40 @@ header p{color:#43584f}
 
  /* ---------- cardápio ---------- */
  /* ---------- como é feito (ingredientes e passos de cada prato) ---------- */
- var DET={
-  'Big fatia mozzarella':{t:'3 min',ing:["Massa fermentada","Molho de tomate","Mozzarella"],p:[["Da vitrine","Cortamos uma big fatia da pizza recém-saída do forno."],["Reaquecer","Volta ao forno por 2 minutos."],["Servir","Quentinha, na caixa em formato de fatia."]]},
-  'Big fatia calabresa':{t:'3 min',ing:["Massa fermentada","Molho de tomate","Mozzarella","Calabresa"],p:[["Da vitrine","Cortamos uma big fatia generosa."],["Reaquecer","Dois minutos no forno, até a calabresa chiar."],["Servir","Quentinha, na caixa em formato de fatia."]]},
-  'Fatia de chocolate':{t:'3 min',ing:["Massa fermentada","Chocolate","Cobertura de chocolate"],p:[["Base","A mesma massa fermentada das pizzas salgadas."],["Chocolate","Cobrimos com chocolate e levamos ao forno."],["Servir","Quentinha, com calda por cima."]]},
-  'Fatia de pistache':{t:'3 min',ing:["Massa fermentada","Creme de pistache","Pistache triturado"],p:[["Base","Massa fermentada aberta à mão."],["Creme","Espalhamos o creme de pistache."],["Servir","Finalizamos com pistache triturado."]]},
-  'Mozzarella 35 cm':{t:'18 min',ing:["Massa de fermentação lenta","Molho de tomate","Mozzarella","Manjericão"],p:[["Massa","Massa fermentada com calma, aberta à mão."],["Molho e queijo","Molho de tomate e mozzarella cobrindo a massa."],["Cobertura","Mais mozzarella por cima."],["Forno","Assa bem quente até a borda dourar."]]},
-  'Mozzarella 50 cm':{t:'18 min',ing:["Massa de fermentação lenta","Molho de tomate","Mozzarella","Manjericão"],p:[["Massa","Massa fermentada com calma, aberta à mão."],["Molho e queijo","Molho de tomate e mozzarella cobrindo a massa."],["Cobertura","Mais mozzarella por cima."],["Forno","Assa bem quente até a borda dourar."]]},
-  'Calabresa 35 cm':{t:'18 min',ing:["Massa de fermentação lenta","Molho de tomate","Mozzarella","Calabresa","Cebola"],p:[["Massa","Massa fermentada com calma, aberta à mão."],["Molho e queijo","Molho de tomate e mozzarella cobrindo a massa."],["Cobertura","Calabresa fatiada espalhada por toda a pizza."],["Forno","Assa bem quente até a borda dourar."]]},
-  'Calabresa 50 cm':{t:'18 min',ing:["Massa de fermentação lenta","Molho de tomate","Mozzarella","Calabresa","Cebola"],p:[["Massa","Massa fermentada com calma, aberta à mão."],["Molho e queijo","Molho de tomate e mozzarella cobrindo a massa."],["Cobertura","Calabresa fatiada espalhada por toda a pizza."],["Forno","Assa bem quente até a borda dourar."]]},
-  'Pepperoni e cogumelo 35 cm':{t:'18 min',ing:["Massa de fermentação lenta","Molho de tomate","Mozzarella","Pepperoni","Azeitona","Cogumelo","Cebola roxa"],p:[["Massa","Massa fermentada com calma, aberta à mão."],["Molho e queijo","Molho de tomate e mozzarella cobrindo a massa."],["Cobertura","Pepperoni, azeitonas, cogumelo e cebola roxa."],["Forno","Assa bem quente até a borda dourar."]]},
-  'Pepperoni e cogumelo 50 cm':{t:'18 min',ing:["Massa de fermentação lenta","Molho de tomate","Mozzarella","Pepperoni","Azeitona","Cogumelo","Cebola roxa"],p:[["Massa","Massa fermentada com calma, aberta à mão."],["Molho e queijo","Molho de tomate e mozzarella cobrindo a massa."],["Cobertura","Pepperoni, azeitonas, cogumelo e cebola roxa."],["Forno","Assa bem quente até a borda dourar."]]},
-  'Marguerita':{t:'15 min',ing:["Massa de fermentação lenta","Molho de tomate","Muçarela","Manjericão fresco","Azeite"],p:[["Massa","A massa descansa por 48 horas na geladeira. Por isso fica leve e cheia de bolhas."],["Molho","Tomate amassado com sal e um fio de azeite. Sem cozinhar."],["Queijo","Fatias de muçarela por cima do molho."],["Forno","Vai ao forno bem quente por poucos minutos, até a borda dourar."],["Final","Manjericão fresco depois de sair do forno."]]},
-  'Calabresa':{t:'15 min',ing:["Massa de fermentação lenta","Molho de tomate","Muçarela","Calabresa fatiada","Cebola"],p:[["Massa","Aberta à mão, sem rolo, para manter a borda fofinha."],["Molho e queijo","Molho de tomate e muçarela cobrindo toda a massa."],["Calabresa","Fatiamos fino e espalhamos com cebola em anéis."],["Forno","Assa até o queijo borbulhar e a borda dourar."]]},
-  'Frango com catupiry':{t:'18 min',ing:["Massa de fermentação lenta","Molho de tomate","Muçarela","Frango desfiado","Catupiry","Azeitonas"],p:[["Frango","Cozido com alho e temperos, depois desfiado."],["Base","Molho e muçarela sobre a massa aberta à mão."],["Cobertura","Frango por cima e colheradas de catupiry."],["Forno","Assa até o catupiry derreter e dourar levemente."],["Final","Azeitonas e orégano."]]},
-  'Quatro queijos':{t:'15 min',ing:["Massa de fermentação lenta","Muçarela","Gorgonzola","Parmesão","Provolone"],p:[["Massa","A mesma massa de 48 horas, aberta à mão."],["Divisão","Dividimos a pizza em quatro partes, uma para cada queijo."],["Forno","Os queijos derretem juntos sem se misturar."],["Final","Fio de azeite e orégano."]]},
-  'Fatia marguerita':{t:'3 min',ing:["Muçarela","Tomate","Manjericão"],p:[["Da vitrine","A fatia sai da pizza feita há pouco."],["Reaquecer","Volta ao forno por 2 minutos para a borda ficar crocante."],["Servir","Manjericão fresco por cima."]]},
-  'Fatia calabresa':{t:'3 min',ing:["Muçarela","Calabresa","Cebola"],p:[["Da vitrine","Cortamos uma fatia generosa da pizza do dia."],["Reaquecer","Dois minutinhos no forno, até a calabresa chiar."],["Servir","Bem quente, na hora."]]},
-  'Fatia frango com catupiry':{t:'3 min',ing:["Muçarela","Frango desfiado","Catupiry"],p:[["Da vitrine","Pegamos uma fatia da pizza que acabou de sair."],["Reaquecer","No forno por 2 minutos, até o catupiry ficar cremoso."],["Servir","Quentinha, na embalagem ou no prato."]]},
-  'Fatia quatro queijos':{t:'3 min',ing:["Muçarela","Gorgonzola","Parmesão","Provolone"],p:[["Da vitrine","Cortamos uma fatia com os quatro queijos."],["Reaquecer","Forno por 2 minutos para derreter de novo."],["Servir","Bem quente."]]},
-  'Refrigerante lata':{t:'1 min',ing:["Refrigerante em lata"],p:[["Gelada","A lata fica na geladeira até chegar a 3 °C."],["Servir","Entregue fechada, com copo e gelo se você quiser."]]},
-  'Suco natural':{t:'3 min',ing:["Fruta da estação","Água gelada","Gelo"],p:[["Fruta","Escolhemos a fruta do dia."],["Bater","Batemos com água gelada."],["Coar","Coamos para ficar liso."],["Servir","Com gelo, na hora."]]},
-  'Água mineral':{t:'1 min',ing:["Água mineral"],p:[["Gelada","Guardada na geladeira."],["Servir","Com gás ou sem gás, do jeito que você pedir."]]},
-  'Cerveja long neck':{t:'1 min',ing:["Cerveja pilsen"],p:[["Gelada","Fica a 2 °C na geladeira."],["Servir","Abrimos na hora, na sua mesa."]]},
-  'Brownie com sorvete':{t:'12 min',ing:["Chocolate","Manteiga","Ovos","Açúcar","Sorvete de creme","Calda de chocolate"],p:[["Massa","Derretemos o chocolate com a manteiga e misturamos ovos, açúcar e farinha."],["Forno","Assamos por 25 minutos a 180 °C."],["Aquecer","Na hora do pedido, o brownie esquenta rapidinho."],["Montagem","Bola de sorvete por cima e calda de chocolate quente."]]}
- };
- var MENU=[
-  {id:'fatias',nome:'Big fatias',sub:'Peça uma fatia e coma na hora.',bg:'#f6ead2',blob:'#f2c14e',itens:[
-   ['Big fatia mozzarella','Mozzarella derretida sobre molho de tomate. Entra na promoção.',14,1,'fatia',{kind:'marguerita'}],
-   ['Big fatia calabresa','Calabresa fatiada e mozzarella. Entra na promoção.',14,0,'fatia',{kind:'calabresa'}]
-  ]},
-  {id:'doces',nome:'Fatias doces',sub:'Para fechar bem.',bg:'#f3e3dc',blob:'#e9b8a6',itens:[
-   ['Fatia de chocolate','Massa fermentada com chocolate e calda.',14,0,'fatia',{kind:'choco',base:'#7a4a2c'}],
-   ['Fatia de pistache','Creme e pedacinhos de pistache.',14,0,'fatia',{kind:'pistache',base:'#c9d98f'}]
-  ]},
-  {id:'pizzas',nome:'Pizzas inteiras',sub:'Dois tamanhos: 35 cm e 50 cm.',bg:'#e3eee9',blob:'#9fcdbb',itens:[
-   ['Mozzarella 35 cm','Molho de tomate, mozzarella e manjericão.',79,1,'pizza',{kind:'marguerita'}],
-   ['Mozzarella 50 cm','Molho de tomate, mozzarella e manjericão.',124,0,'pizza',{kind:'marguerita'}],
-   ['Calabresa 35 cm','Calabresa fatiada, cebola e mozzarella.',79,0,'pizza',{kind:'calabresa'}],
-   ['Calabresa 50 cm','Calabresa fatiada, cebola e mozzarella.',124,0,'pizza',{kind:'calabresa'}],
-   ['Pepperoni e cogumelo 35 cm','Pepperoni, azeitona, cogumelo e cebola roxa.',79,0,'pizza',{kind:'calabresa'}],
-   ['Pepperoni e cogumelo 50 cm','Pepperoni, azeitona, cogumelo e cebola roxa.',124,0,'pizza',{kind:'calabresa'}]
-  ]},
-  {id:'bebidas',nome:'Bebidas',sub:'Geladas.',bg:'#e3f1f7',blob:'#a9d8ea',itens:[
-   ['Refrigerante lata','Cola, guaraná ou limão.',6,0,'can',{c:'#a3321f'}],
-   ['Suco natural','Fruta do dia. 400 ml.',9,0,'glass',{c:'#f6a62e',f:'#f6b73c'}],
-   ['Água mineral','Com ou sem gás.',4,0,'water',{}],
-   ['Cerveja long neck','Pilsen bem gelada.',12,0,'beer',{}]
-  ]}
+ var DET={};
+ var SAB=[
+  ['Pepperoni','Molho de tomate pelati, mozzarella, pepperoni, champignon fresco, azeitona preta e cebola.',['Molho de tomate pelati','Mozzarella','Pepperoni','Champignon fresco','Azeitona preta','Cebola'],94,146,18,'calabresa','','','s'],
+  ['Calabresa acebolada','Molho de tomate pelati, mozzarella, calabresa e cebola.',['Molho de tomate pelati','Mozzarella','Calabresa','Cebola'],86,130,16,'calabresa','','','s'],
+  ['Portuguesa','Molho de tomate pelati, mozzarella, calabresa, presunto, ovo, azeitona preta, pimentão e cebola.',['Molho de tomate pelati','Mozzarella','Calabresa','Presunto','Ovo','Azeitona preta','Pimentão','Cebola'],94,146,18,'calabresa','','','s'],
+  ['3 queijos','Molho de tomate pelati, mozzarella, gorgonzola e requeijão.',['Molho de tomate pelati','Mozzarella','Gorgonzola','Requeijão'],89,138,17,'quatro','','','s'],
+  ['Frango com requeijão','Molho de tomate pelati, mozzarella, frango com requeijão cremoso da fazenda.',['Molho de tomate pelati','Mozzarella','Frango','Requeijão cremoso da fazenda'],86,130,15,'frango','','','s'],
+  ['Banoffe','Mozzarella, banana, canela e açúcar.',['Mozzarella','Banana','Canela','Açúcar'],86,130,16,'banoffe','#f7e3a0','Doce','d'],
+  ['Chocolate','Mozzarella e chocolate ao leite.',['Mozzarella','Chocolate ao leite'],86,130,16,'choco','#7a4a2c','Doce','d'],
+  ['Doce de leite','Mozzarella, doce de leite, finalizada com parmesão ralado.',['Mozzarella','Doce de leite','Parmesão ralado'],86,130,16,'choco','#d99a4e','Doce','d'],
+  ['Pistache','Creme de pistache, parmesão maturado e raspa de limão siciliano.',['Creme de pistache','Parmesão maturado','Raspa de limão siciliano'],86,130,17,'pistache','#c9d98f','Doce','d'],
+  ['Abobrinha no missô com cogumelos','Creme de queijo vegano e abobrinha no missô com cogumelos.',['Creme de queijo vegano','Abobrinha no missô','Cogumelos'],94,146,18,'veg','#f3e9c8','Vegana','v'],
+  ['Alho crocante e milho','Creme de queijo vegano, alho crocante e milho.',['Creme de queijo vegano','Alho crocante','Milho'],94,146,18,'veg','#f3e9c8','Vegana','v']
  ];
+ var ACOMP=[['Ketchup fermentado no missô',5,'#b3362b'],['Molho ranch',6,'#f4f1e6'],['Mel picante',7,'#e8a23a'],['Molho de tomate da casa',4,'#c8402a'],['Pesto',7,'#6f9a3c'],['Chocolate',5,'#4a2a1c'],['Doce de leite',5,'#d99a4e'],['Nuvem de parmesão',5,'#fff0c2']];
+ var MENU=[
+  {id:'fatias',nome:'Fatias',sub:'Peça uma fatia e coma na hora.',bg:'#f6ead2',blob:'#f2c14e',itens:[]},
+  {id:'p35',nome:'Pizza 35 cm',sub:'Na massa, cama de molho de tomate e mozzarella.',bg:'#e3eee9',blob:'#9fcdbb',itens:[]},
+  {id:'p50',nome:'Pizza 50 cm',sub:'Na massa, cama de molho de tomate e mozzarella.',bg:'#e3eee9',blob:'#9fcdbb',itens:[]},
+  {id:'acomp',nome:'Acompanhamentos',sub:'Molhos e coberturas.',bg:'#f3e3dc',blob:'#e9b8a6',itens:[]}
+ ];
+ SAB.forEach(function(s){
+  var n=s[0],ing=s[2],top=ing.slice(s[9]==='s'?2:1).join(', ').toLowerCase();
+  var o={kind:s[6],base:s[7]||undefined},steps=[['Massa','Massa fermentada com calma, aberta à mão.'],[s[9]==='v'?'Creme':'Base',s[9]==='v'?'Creme de queijo vegano no lugar da mozzarella.':'Cama de molho de tomate e mozzarella.'],['Cobertura','Entram: '+top+'.'],['Forno','Assa bem quente, até a borda dourar.']];
+  MENU[0].itens.push(['Fatia '+n,s[1],s[5],s[8],'fatia',o]);
+  MENU[1].itens.push([n+' 35 cm',s[1],s[3],s[8],'pizza',o]);
+  MENU[2].itens.push([n+' 50 cm',s[1],s[4],s[8],'pizza',o]);
+  DET['Fatia '+n]={t:'3 min',ing:ing,p:[['Da vitrine','Cortamos uma fatia da pizza que acabou de sair.'],['Reaquecer','Volta ao forno por 2 minutos.'],['Servir','Quentinha, na hora.']]};
+  DET[n+' 35 cm']={t:'18 min',ing:ing,p:steps};DET[n+' 50 cm']={t:'20 min',ing:ing,p:steps};
+ });
+ ACOMP.forEach(function(a){
+  MENU[3].itens.push([a[0],'Acompanhamento da casa.',a[1],0,'molho',{c:a[2]}]);
+  DET[a[0]]={t:'1 min',ing:[a[0]],p:[['Da casa','Preparado na cozinha da pizzaria.'],['Servir','Vai em um potinho, junto com o seu pedido.']]};
+ });
  var qty={},$=function(i){return document.getElementById(i)};
  function brl(v){return 'R$ '+v.toFixed(2).replace('.',',')}
  var nav=$('cats'),main=$('menu');
@@ -346,7 +338,7 @@ header p{color:#43584f}
    d.innerHTML='<div class="pic"><div class="blob"></div><svg class="art" viewBox="0 0 200 200" aria-hidden="true"></svg></div><div class="body"><h3></h3><p></p><span class="more">Ver como é feito</span><div class="buy"><span class="price"></span><button type="button" class="addbtn">Adicionar</button><div class="stepper"><button type="button" class="minus">−</button><output>0</output><button type="button" class="plus">+</button></div></div></div>';
    var pic=d.querySelector('.pic');pic.style.setProperty('--bgc',c.bg);pic.style.setProperty('--blobc',c.blob);
    d.querySelector('.art').innerHTML=ART[it[4]](it[5]);
-   if(it[3]){var t=document.createElement('span');t.className='tag';t.textContent='Mais pedido';pic.appendChild(t)}
+   if(it[3]){var t=document.createElement('span');t.className='tag';t.textContent=it[3]===1?'Mais pedido':it[3];pic.appendChild(t)}
    d.querySelector('h3').textContent=it[0];d.querySelector('p').textContent=it[1];d.querySelector('.price').textContent=brl(it[2]);
    d.querySelector('.addbtn').setAttribute('aria-label','Adicionar '+it[0]);
    d.querySelector('.minus').setAttribute('aria-label','Remover '+it[0]);
@@ -389,7 +381,7 @@ header p{color:#43584f}
   $('d-hero').style.setProperty('--bgc',c.bg);$('d-hero').querySelector('.blob').style.background=c.blob;
   $('d-art').innerHTML=ART[it[4]](it[5]);
   var old=$('d-hero').querySelector('.tag');if(old)old.remove();
-  if(it[3]){var t=document.createElement('span');t.className='tag';t.textContent='Mais pedido';$('d-hero').appendChild(t)}
+  if(it[3]){var t=document.createElement('span');t.className='tag';t.textContent=it[3]===1?'Mais pedido':it[3];$('d-hero').appendChild(t)}
   $('d-nome').textContent=it[0];$('d-preco').textContent=brl(it[2]);
   $('d-tempo').textContent=d.t?'Fica pronto em cerca de '+d.t:'';
   $('d-desc').textContent=it[1];

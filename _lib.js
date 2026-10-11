@@ -1,0 +1,85 @@
+// Funções compartilhadas: preços, validação e cotação de frete (Melhor Envio).
+const PRECOS = { google: 19.99, instagram: 22.99, personalizada: 27.99 };
+const NOMES = { google: 'Placa NFC Google 10x15', instagram: 'Placa NFC Instagram 10x15', personalizada: 'Placa NFC Personalizada 10x15' };
+const MAX_POR_MODELO = 2000;
+
+const num = (v, d) => { const n = Number(v); return Number.isFinite(n) && n > 0 ? n : d; };
+
+function lerItens(raw) {
+  const itens = {};
+  let total = 0;
+  for (const k of Object.keys(PRECOS)) {
+    let q = parseInt(raw && raw[k], 10);
+    if (!Number.isFinite(q) || q < 0) q = 0;
+    if (q > MAX_POR_MODELO) q = MAX_POR_MODELO;
+    itens[k] = q;
+    total += q;
+  }
+  return { itens, total };
+}
+
+const centavos = (v) => Math.round(v * 100);
+function subtotal(itens) {
+  let c = 0;
+  for (const k of Object.keys(PRECOS)) c += itens[k] * centavos(PRECOS[k]);
+  return c / 100;
+}
+
+const soDigitos = (s) => String(s || '').replace(/\D/g, '');
+const cepValido = (s) => soDigitos(s).length === 8;
+
+function json(statusCode, obj) {
+  return { statusCode, headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' }, body: JSON.stringify(obj) };
+}
+
+async function cotarFrete(cepDestino, itens, total) {
+  const token = process.env.ME_TOKEN;
+  const origem = soDigitos(process.env.ORIGEM_CEP);
+  if (!token || origem.length !== 8) throw new Error('Frete não configurado (ME_TOKEN / ORIGEM_CEP).');
+  const base = process.env.ME_SANDBOX === 'true' ? 'https://sandbox.melhorenvio.com.br' : 'https://melhorenvio.com.br';
+  const unit = subtotal(itens) / total;
+  const body = {
+    from: { postal_code: origem },
+    to: { postal_code: soDigitos(cepDestino) },
+    products: [{
+      id: 'placa-nfc',
+      width: num(process.env.LARGURA_CM, 15),
+      height: num(process.env.ALTURA_CM, 3),
+      length: num(process.env.COMPRIMENTO_CM, 20),
+      weight: num(process.env.PESO_PLACA_KG, 0.15),
+      insurance_value: Number(unit.toFixed(2)),
+      quantity: total
+    }],
+    options: { receipt: false, own_hand: false }
+  };
+  const r = await fetch(base + '/api/v2/me/shipment/calculate', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token,
+      'User-Agent': 'Apitou Avaliou (' + (process.env.ME_CONTATO_EMAIL || 'contato') + ')'
+    },
+    body: JSON.stringify(body)
+  });
+  if (!r.ok) throw new Error('Melhor Envio respondeu ' + r.status);
+  const data = await r.json();
+  const lista = (Array.isArray(data) ? data : [])
+    .filter((o) => o && !o.error && (o.custom_price || o.price))
+    .map((o) => {
+      const preco = Number(o.custom_price || o.price);
+      const dr = o.delivery_range || {};
+      return {
+        id: String(o.id),
+        nome: [o.company && o.company.name, o.name].filter(Boolean).join(' '),
+        preco: Number(preco.toFixed(2)),
+        prazoMin: dr.min || o.custom_delivery_time || o.delivery_time || null,
+        prazoMax: dr.max || o.custom_delivery_time || o.delivery_time || null
+      };
+    })
+    .filter((o) => o.preco > 0)
+    .sort((a, b) => a.preco - b.preco);
+  return lista;
+}
+
+module.exports = { PRECOS, NOMES, lerItens, subtotal, soDigitos, cepValido, json, cotarFrete, centavos };

@@ -1,6 +1,7 @@
 // Mercado Pago avisa aqui quando um pagamento muda de status.
 // Se RESEND_API_KEY e NOTIFY_EMAIL existirem, envia um e-mail com os dados do pedido aprovado.
 const { json } = require('./_lib');
+const db = require('./_db');
 
 exports.handler = async (event) => {
   const token = process.env.MP_ACCESS_TOKEN;
@@ -20,8 +21,27 @@ exports.handler = async (event) => {
     if (!r.ok) return json(200, { ok: false });
     const p = await r.json();
     console.log('pagamento', id, p.status, p.external_reference);
-    if (p.status === 'approved' && process.env.RESEND_API_KEY && process.env.NOTIFY_EMAIL) {
-      const m = p.metadata || {};
+    const m = p.metadata || {};
+    const pedidoId = m.pedido || p.external_reference;
+    // Atualiza o status no painel; "primeiraVez" evita e-mail repetido quando o MP avisa mais de uma vez.
+    let primeiraVez = true;
+    if (db.disponivel() && pedidoId) {
+      try {
+        const st = p.status === 'approved' ? 'pago' : (['rejected', 'cancelled'].includes(p.status) ? 'recusado' : (p.status === 'refunded' || p.status === 'charged_back' ? 'reembolsado' : 'aguardando'));
+        let reg = null;
+        const atual = await db.cmd(['GET', 'ped:' + pedidoId]);
+        if (atual) reg = JSON.parse(atual);
+        if (!reg) { // pedido não estava salvo (ex.: banco ligado depois): recria pelos metadados
+          reg = { id: pedidoId, criado: Date.now(), nome: m.nome, email: m.email, whatsapp: m.whatsapp, cep: m.cep, endereco: m.endereco, itens: m.itens || {}, frete_servico: m.frete_servico, frete_valor: Number(m.frete_valor) || 0, produtos_valor: Number(m.produtos_valor) || 0, total: Number(p.transaction_amount) || 0, enviado: false, rastreio: '' };
+          await db.cmd(['ZADD', 'peds', String(reg.criado), pedidoId]);
+        }
+        if (st === 'pago' && reg.pago_em) primeiraVez = false;
+        reg.status = st;
+        if (st === 'pago' && !reg.pago_em) { reg.pago_em = Date.now(); reg.pago_dia = db.dia(); reg.total = Number(p.transaction_amount) || reg.total; }
+        await db.cmd(['SET', 'ped:' + pedidoId, JSON.stringify(reg)]);
+      } catch (e) { console.error('webhook/db:', e.message); }
+    }
+    if (p.status === 'approved' && primeiraVez && process.env.RESEND_API_KEY && process.env.NOTIFY_EMAIL) {
       const it = m.itens || {};
       const linhas = [
         'Pedido ' + (m.pedido || p.external_reference),

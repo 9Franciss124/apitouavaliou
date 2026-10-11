@@ -19,9 +19,24 @@ function lerItens(raw) {
 }
 
 const centavos = (v) => Math.round(v * 100);
+
+// Tabela de preços por quantidade (soma de todas as placas do pedido, de qualquer modelo).
+// Os fatores seguem a tabela de referência: R$19,00 -> 17,00 -> 16,50 -> 16,00 por placa.
+const FAIXAS = [
+  { min: 150, f: 16 / 19 },
+  { min: 100, f: 16.5 / 19 },
+  { min: 50, f: 17 / 19 },
+  { min: 1, f: 1 }
+];
+const fatorFaixa = (total) => (FAIXAS.find((x) => total >= x.min) || FAIXAS[FAIXAS.length - 1]).f;
+const centavosUnit = (k, total) => Math.round(centavos(PRECOS[k]) * fatorFaixa(total));
+const precoUnit = (k, total) => centavosUnit(k, total) / 100;
+
 function subtotal(itens) {
+  let total = 0;
+  for (const k of Object.keys(PRECOS)) total += itens[k];
   let c = 0;
-  for (const k of Object.keys(PRECOS)) c += itens[k] * centavos(PRECOS[k]);
+  for (const k of Object.keys(PRECOS)) c += itens[k] * centavosUnit(k, total);
   return c / 100;
 }
 
@@ -82,4 +97,4 @@ async function cotarFrete(cepDestino, itens, total) {
   return lista;
 }
 
-module.exports = { PRECOS, NOMES, lerItens, subtotal, soDigitos, cepValido, json, cotarFrete, centavos };
+module.exports = { PRECOS, NOMES, FAIXAS, precoUnit, lerItens, subtotal, soDigitos, cepValido, json, cotarFrete, centavos };

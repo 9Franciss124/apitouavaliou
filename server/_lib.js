@@ -21,15 +21,16 @@ function lerItens(raw) {
 const centavos = (v) => Math.round(v * 100);
 
 // Tabela de preços por quantidade (soma de todas as placas do pedido, de qualquer modelo).
-// Os fatores seguem a tabela de referência: R$19,00 -> 17,00 -> 16,50 -> 16,00 por placa.
+// Preços fechados, terminando em ,00 / ,49 / ,99. Abaixo de 50 placas vale o preço base (PRECOS).
 const FAIXAS = [
-  { min: 150, f: 16 / 19 },
-  { min: 100, f: 16.5 / 19 },
-  { min: 50, f: 17 / 19 },
-  { min: 1, f: 1 }
+  { min: 150, p: { google: 16.99, instagram: 19.49, personalizada: 23.49 } },
+  { min: 100, p: { google: 17.49, instagram: 19.99, personalizada: 24.49 } },
+  { min: 50, p: { google: 17.99, instagram: 20.49, personalizada: 25.00 } }
 ];
-const fatorFaixa = (total) => (FAIXAS.find((x) => total >= x.min) || FAIXAS[FAIXAS.length - 1]).f;
-const centavosUnit = (k, total) => Math.round(centavos(PRECOS[k]) * fatorFaixa(total));
+const centavosUnit = (k, total) => {
+  const f = FAIXAS.find((x) => total >= x.min);
+  return centavos(f ? f.p[k] : PRECOS[k]);
+};
 const precoUnit = (k, total) => centavosUnit(k, total) / 100;
 
 function subtotal(itens) {

@@ -56,6 +56,44 @@ h2{font:800 28px/1.1 'Bricolage Grotesque',sans-serif;margin:0 0 4px;letter-spac
 .stepper button.plus{background:var(--mar);color:#fff}
 .stepper output{min-width:24px;text-align:center;font-weight:700;font-size:17px}
 .card.has .addbtn{display:none}
+.card{cursor:pointer}
+.more{display:inline-block;margin-top:8px;color:var(--mar);font-weight:700;font-size:14px;text-decoration:underline;text-underline-offset:3px}
+.card:focus-visible{outline:3px solid var(--sol);outline-offset:2px}
+.det{position:fixed;inset:0;z-index:50;display:flex;justify-content:center;background:rgba(16,32,31,.5);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.det.open{opacity:1;visibility:visible}
+.sheet{position:relative;width:100%;max-width:560px;height:100%;background:#fff;overflow-y:auto;overscroll-behavior:contain;transform:translateY(28px);transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.det.open .sheet{transform:none}
+.dh{position:relative;height:310px;background:var(--bgc,#fdf0cf);overflow:hidden}
+.dh .blob{width:236px;height:236px;margin:-118px 0 0 -118px;transform:none}
+.dh .art{width:272px;height:272px;inset:14px 0 0;transform:none}
+.dh .tag{left:auto;right:16px;top:16px}
+.back{position:absolute;left:14px;top:14px;z-index:2;width:44px;height:44px;border-radius:50%;border:0;background:#fff;color:var(--ink);box-shadow:0 4px 14px rgba(16,32,31,.18);cursor:pointer;display:grid;place-items:center;padding:0}
+.dbody{padding:22px 20px 24px}
+.dbody h2{font:800 32px/1.08 'Bricolage Grotesque',sans-serif;margin:0 0 8px}
+.meta{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:baseline;margin:0 0 12px}
+.meta .price{font-size:24px}
+.meta span{color:var(--mut);font-size:14px}
+.meta .price{color:var(--ink)}
+button{-webkit-tap-highlight-color:transparent}
+.dbody>p{margin:0 0 22px;color:#32423f}
+.dbody h3{font:800 19px 'Bricolage Grotesque',sans-serif;margin:0 0 10px}
+.ing{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 26px;padding:0;list-style:none}
+.ing li{background:var(--tint);border:1px solid var(--line);border-radius:999px;padding:7px 13px;font-size:14.5px}
+.steps{margin:0;padding:0;list-style:none;counter-reset:p}
+.steps li{position:relative;padding:0 0 18px 48px;counter-increment:p}
+.steps li::before{content:counter(p);position:absolute;left:0;top:0;width:32px;height:32px;border-radius:50%;background:var(--mar);color:#fff;font:800 15px/32px 'Bricolage Grotesque',sans-serif;text-align:center}
+.steps li::after{content:"";position:absolute;left:15px;top:36px;bottom:4px;width:2px;background:var(--line)}
+.steps li:last-child::after{display:none}
+.steps li:last-child{padding-bottom:4px}
+.steps b{display:block;font-size:16px;margin-bottom:2px}
+.steps span{color:#32423f;font-size:15px}
+.dbar{position:sticky;bottom:0;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 20px calc(12px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid var(--line)}
+.dbar .addbtn{padding:14px 26px;font-size:16px}
+.dbar .stepper{gap:8px}
+.dbar .done{border:0;background:var(--sol);color:var(--ink);font:700 15px 'DM Sans',sans-serif;padding:13px 18px;border-radius:999px;cursor:pointer;display:none}
+.dbar.has .addbtn{display:none}.dbar.has .stepper{display:flex}.dbar.has .done{display:inline-block}
+.dbar .tot{font:800 22px 'Bricolage Grotesque',sans-serif}
+@media(prefers-reduced-motion:reduce){.det,.sheet{transition:none}}
 .card.has .stepper{display:flex}
 button:focus-visible,a:focus-visible{outline:3px solid var(--sol);outline-offset:2px}
 .foot{padding:30px 20px 10px;color:var(--mut);font-size:13px}
@@ -97,6 +135,20 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--sol);outline-offset
  <div>
   <div class="t"><small id="qtd">0 itens</small><b id="tot">R$ 0,00</b></div>
   <a id="enviar" href="#" target="_blank" rel="noopener">Enviar pedido<br>no WhatsApp</a>
+ </div>
+</div>
+
+<div class="det" id="det" role="dialog" aria-modal="true" aria-labelledby="d-nome" aria-hidden="true">
+ <div class="sheet" id="sheet">
+  <div class="dh" id="d-hero"><button type="button" class="back" id="d-back" aria-label="Voltar ao cardápio"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><div class="blob"></div><svg class="art" id="d-art" viewBox="0 0 200 200" aria-hidden="true"></svg></div>
+  <div class="dbody">
+   <h2 id="d-nome"></h2>
+   <div class="meta"><span class="price" id="d-preco"></span><span id="d-tempo"></span></div>
+   <p id="d-desc"></p>
+   <h3>Ingredientes</h3><ul class="ing" id="d-ing"></ul>
+   <h3>Como é feito</h3><ol class="steps" id="d-passos"></ol>
+  </div>
+  <div class="dbar" id="d-bar"><span class="tot" id="d-tot"></span><button type="button" class="addbtn" id="d-add">Adicionar ao pedido</button><div class="stepper"><button type="button" id="d-minus" aria-label="Remover um">−</button><output id="d-qtd">0</output><button type="button" class="plus" id="d-plus" aria-label="Mais um">+</button></div><button type="button" class="done" id="d-ok">Ver pedido</button></div>
  </div>
 </div>
 
@@ -185,6 +237,25 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--sol);outline-offset
  };
 
  /* ---------- cardápio ---------- */
+ /* ---------- como é feito (ingredientes e passos de cada prato) ---------- */
+ var DET={
+  'Smash clássico':{t:'6 min',ing:['Pão brioche','2 carnes de 80 g','Queijo prato','Alface','Molho da casa'],p:[['Bolinhas de 80 g','Dividimos o blend em bolinhas, sem temperar antes.'],['Prensa na chapa','Prensamos cada bolinha na chapa bem quente por 10 segundos para formar a crosta.'],['Queijo','Viramos, cobrimos com queijo e deixamos derreter por 1 minuto.'],['Montagem','Tostamos o pão na manteiga, montamos com alface e molho e servimos na hora.']]},
+  'Duplo cheddar':{t:'8 min',ing:['Pão brioche','2 carnes de 80 g','Cheddar cremoso','Cebola caramelizada'],p:[['Cebola','A cebola cozinha devagar por 25 minutos, até ficar dourada e doce. Já fica pronta antes.'],['Carnes','Prensamos duas bolinhas na chapa quente por 10 segundos e viramos.'],['Cheddar','Cobrimos com cheddar e deixamos derreter junto com a carne.'],['Montagem','Pão tostado, carnes, cebola por cima e servimos quente.']]},
+  'Smash bacon':{t:'8 min',ing:['Pão brioche','2 carnes de 80 g','Queijo prato','Bacon crocante','Maionese defumada'],p:[['Bacon','Assamos o bacon no forno até ficar bem crocante.'],['Carnes','Prensamos as duas bolinhas na chapa quente e viramos.'],['Queijo','Queijo prato por cima até derreter.'],['Montagem','Pão tostado, maionese defumada, carnes e o bacon por cima.']]},
+  'Frango crocante':{t:'12 min',ing:['Pão brioche','Sobrecoxa empanada','Alface','Maionese de ervas'],p:[['Tempero','A sobrecoxa desossada descansa em limão e alho.'],['Empanado','Passamos em farinha, ovo e panko.'],['Fritura','Fritamos por 5 minutos a 180 °C, até dourar.'],['Montagem','Pão tostado, maionese de ervas, alface e o frango bem quente.']]},
+  'Grão-de-bico':{t:'10 min',ing:['Pão brioche','Burger de grão-de-bico','Queijo coalho','Alface','Geleia de pimenta'],p:[['Massa','Grão-de-bico amassado com cebola, alho e temperos.'],['Molde','Modelamos os burgers e deixamos descansar na geladeira.'],['Grelha','Grelhamos 3 minutos de cada lado, com o queijo coalho.'],['Montagem','Alface, burger, coalho e geleia de pimenta no pão tostado.']]},
+  'Batata frita':{t:'10 min',ing:['Batata','Óleo','Sal de alho'],p:[['Corte','Cortamos em palitos e lavamos para tirar o excesso de amido.'],['Primeira fritura','150 °C por alguns minutos, até a batata ficar macia.'],['Segunda fritura','190 °C até ficar dourada e crocante.'],['Tempero','Sal de alho na hora de servir.']]},
+  'Batata cheddar e bacon':{t:'12 min',ing:['Batata','Cheddar','Bacon','Cebolinha'],p:[['Batata','Fritura em duas etapas, para ficar crocante por fora e macia por dentro.'],['Bacon','Bacon crocante picado, que vira uma farofa.'],['Cheddar','Aquecemos o cheddar até ficar cremoso.'],['Finalização','Cheddar por cima da batata, bacon e cebolinha.']]},
+  'Mandioca frita':{t:'15 min',ing:['Mandioca','Sal','Molho verde'],p:[['Cozimento','Cozinhamos a mandioca na água com sal até ficar macia.'],['Descanso','Escorremos e secamos bem.'],['Fritura','Fritamos até dourar por fora.'],['Molho','Servimos com molho verde de ervas.']]},
+  'Anéis de cebola':{t:'8 min',ing:['Cebola','Farinha','Massa leve','Panko','Molho barbecue'],p:[['Corte','Fatias grossas de cebola, separadas em anéis.'],['Empanado','Farinha, massa leve e depois panko.'],['Fritura','Fritamos por 3 minutos até dourar.'],['Molho','Servimos com molho barbecue.']]},
+  'Suco natural':{t:'3 min',ing:['Fruta da estação','Água gelada','Gelo'],p:[['Fruta','Escolhemos a fruta do dia: cajá, acerola ou maracujá.'],['Bater','Batemos com água gelada.'],['Coar','Coamos para ficar liso.'],['Servir','Com gelo, na hora.']]},
+  'Limonada':{t:'3 min',ing:['Limão','Açúcar','Hortelã','Gelo'],p:[['Limão','Espremido na hora, sem a parte branca da casca.'],['Doce','Dissolvemos o açúcar na água gelada.'],['Mistura','Juntamos o suco, a água e a hortelã.'],['Servir','Com bastante gelo.']]},
+  'Refrigerante lata':{t:'1 min',ing:['Refrigerante em lata'],p:[['Gelada','A lata fica na geladeira até chegar a 3 °C.'],['Servir','Entregue fechada. Pedimos o copo com gelo, se você quiser.']]},
+  'Cerveja long neck':{t:'1 min',ing:['Cerveja pilsen'],p:[['Gelada','Fica a 2 °C na geladeira.'],['Servir','Abrimos na hora, na sua mesa.']]},
+  'Água mineral':{t:'1 min',ing:['Água mineral'],p:[['Gelada','Guardada na geladeira.'],['Servir','Com gás ou sem gás, do jeito que você pedir.']]},
+  'Brownie com sorvete':{t:'12 min',ing:['Chocolate','Manteiga','Ovos','Açúcar','Sorvete de creme','Calda de chocolate'],p:[['Massa','Derretemos o chocolate com a manteiga e misturamos ovos, açúcar e farinha.'],['Forno','Assamos por 25 minutos a 180 °C.'],['Aquecer','Na hora do pedido, o brownie esquenta rapidinho.'],['Montagem','Bola de sorvete por cima e calda de chocolate quente.']]},
+  'Pudim da casa':{t:'1 min',ing:['Leite condensado','Leite','Ovos','Açúcar'],p:[['Calda','O açúcar vira caramelo na forma.'],['Creme','Batemos leite condensado, leite e ovos e coamos.'],['Banho-maria','Cozinhamos por 1 hora, em fogo baixo.'],['Gelar','Descansa na geladeira por 6 horas e desenformamos no dia.']]}
+ };
  var MENU=[
   {id:'smash',nome:'Smash',sub:'Carne prensada na chapa e molho da casa.',bg:'#fdf0cf',blob:'#f5b82e',itens:[
    ['Smash clássico','Duas carnes de 80 g, queijo prato, alface e molho da casa.',28,0,'burger',{p:2,cheese:1,extra:'lettuce'}],
@@ -223,7 +294,7 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--sol);outline-offset
   var car=s.querySelector('.car');car.setAttribute('aria-label',c.nome+', deslize para o lado');
   c.itens.forEach(function(it,ii){
    var key=ci+'-'+ii,d=document.createElement('article');d.className='card';d.id='i'+key;
-   d.innerHTML='<div class="pic"><div class="blob"></div><svg class="art" viewBox="0 0 200 200" aria-hidden="true"></svg></div><div class="body"><h3></h3><p></p><div class="buy"><span class="price"></span><button type="button" class="addbtn">Adicionar</button><div class="stepper"><button type="button" class="minus">−</button><output>0</output><button type="button" class="plus">+</button></div></div></div>';
+   d.innerHTML='<div class="pic"><div class="blob"></div><svg class="art" viewBox="0 0 200 200" aria-hidden="true"></svg></div><div class="body"><h3></h3><p></p><span class="more">Ver como é feito</span><div class="buy"><span class="price"></span><button type="button" class="addbtn">Adicionar</button><div class="stepper"><button type="button" class="minus">−</button><output>0</output><button type="button" class="plus">+</button></div></div></div>';
    var pic=d.querySelector('.pic');pic.style.setProperty('--bgc',c.bg);pic.style.setProperty('--blobc',c.blob);
    d.querySelector('.art').innerHTML=ART[it[4]](it[5]);
    if(it[3]){var t=document.createElement('span');t.className='tag';t.textContent='Mais pedido';pic.appendChild(t)}
@@ -234,7 +305,9 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--sol);outline-offset
    d.querySelector('.addbtn').onclick=function(){mudar(key,1)};
    d.querySelector('.plus').onclick=function(){mudar(key,1)};
    d.querySelector('.minus').onclick=function(){mudar(key,-1)};
-   pic.addEventListener('click',function(){if(car.moved)return;pic.classList.remove('pop');void pic.offsetWidth;pic.classList.add('pop')});
+   d.tabIndex=0;d.setAttribute('role','button');d.setAttribute('aria-label',it[0]+', ver como é feito');
+   d.addEventListener('click',function(e){if(car.moved||e.target.closest('.addbtn,.stepper'))return;abrir(key)});
+   d.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&e.target===d){e.preventDefault();abrir(key)}});
    car.appendChild(d);
   });
   main.appendChild(s);
@@ -243,7 +316,7 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--sol);outline-offset
  function mudar(key,d){
   qty[key]=Math.max(0,(qty[key]||0)+d);
   var el=$('i'+key);el.classList.toggle('has',qty[key]>0);el.querySelector('output').textContent=qty[key];
-  atualiza();
+  atualiza();if(aberto===key)desenhaBar();
  }
  function atualiza(){
   var n=0,tot=0,linhas=[];
@@ -253,6 +326,44 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--sol);outline-offset
   var msg='[EXEMPLO] Olá! Fiz um pedido de teste no cardápio digital da Smash & Maré:\n'+linhas.join('\n')+'\nTotal: '+brl(tot);
   $('enviar').href='https://wa.me/'+WA+'?text='+encodeURIComponent(msg);
  }
+
+ /* ---------- tela de um prato ---------- */
+ var aberto=null,voltar=null;
+ function desenhaBar(){
+  var it=achar(aberto),q=qty[aberto]||0;
+  $('d-bar').classList.toggle('has',q>0);$('d-qtd').textContent=q;
+  $('d-tot').textContent=q>0?brl(q*it[2]):brl(it[2]);
+ }
+ function abrir(key){
+  var p=key.split('-'),c=MENU[p[0]],it=c.itens[p[1]],d=DET[it[0]]||{t:'',ing:[],p:[]};
+  aberto=key;
+  $('d-hero').style.setProperty('--bgc',c.bg);$('d-hero').querySelector('.blob').style.background=c.blob;
+  $('d-art').innerHTML=ART[it[4]](it[5]);
+  var old=$('d-hero').querySelector('.tag');if(old)old.remove();
+  if(it[3]){var t=document.createElement('span');t.className='tag';t.textContent='Mais pedido';$('d-hero').appendChild(t)}
+  $('d-nome').textContent=it[0];$('d-preco').textContent=brl(it[2]);
+  $('d-tempo').textContent=d.t?'Fica pronto em cerca de '+d.t:'';
+  $('d-desc').textContent=it[1];
+  $('d-ing').innerHTML='';d.ing.forEach(function(x){var l=document.createElement('li');l.textContent=x;$('d-ing').appendChild(l)});
+  $('d-passos').innerHTML='';d.p.forEach(function(x){var l=document.createElement('li'),b=document.createElement('b'),sp=document.createElement('span');b.textContent=x[0];sp.textContent=x[1];l.appendChild(b);l.appendChild(sp);$('d-passos').appendChild(l)});
+  desenhaBar();
+  $('sheet').scrollTop=0;
+  voltar=document.activeElement;
+  $('det').classList.add('open');$('det').setAttribute('aria-hidden','false');document.body.style.overflow='hidden';
+  try{history.pushState({prato:key},'','#prato')}catch(e){}
+  $('d-back').focus({preventScroll:true});
+ }
+ function fechar(){
+  if(aberto===null)return;
+  aberto=null;$('det').classList.remove('open');$('det').setAttribute('aria-hidden','true');document.body.style.overflow='';
+  if(voltar&&voltar.focus)voltar.focus({preventScroll:true});
+ }
+ function pedeFechar(){if(history.state&&history.state.prato){history.back()}else{fechar()}}
+ $('d-back').onclick=pedeFechar;$('d-ok').onclick=pedeFechar;
+ $('det').addEventListener('click',function(e){if(e.target===$('det'))pedeFechar()});
+ $('d-add').onclick=function(){mudar(aberto,1)};$('d-plus').onclick=function(){mudar(aberto,1)};$('d-minus').onclick=function(){mudar(aberto,-1)};
+ window.addEventListener('popstate',fechar);
+ document.addEventListener('keydown',function(e){if(e.key==='Escape'&&aberto!==null)pedeFechar()});
 
  /* ---------- movimento dos cartões ---------- */
  var cars=[].slice.call(document.querySelectorAll('.car'));

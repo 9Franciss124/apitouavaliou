@@ -186,9 +186,9 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
    <thead><tr><th>Quantidade</th><th class="v">Google</th><th class="v">Instagram</th><th class="v">Personalizada</th></tr></thead>
    <tbody>
     <tr><td>1 a 49 placas</td><td class="v">R$ 19,99</td><td class="v">R$ 22,99</td><td class="v">R$ 27,99</td></tr>
-    <tr><td>50 a 99 placas</td><td class="v">R$ 17,89</td><td class="v">R$ 20,57</td><td class="v">R$ 25,04</td></tr>
-    <tr><td>100 a 149 placas</td><td class="v">R$ 17,36</td><td class="v">R$ 19,97</td><td class="v">R$ 24,31</td></tr>
-    <tr class="best"><td>150 placas ou mais <span class="badge">Melhor preço</span></td><td class="v">R$ 16,83</td><td class="v">R$ 19,36</td><td class="v">R$ 23,57</td></tr>
+    <tr><td>50 a 99 placas</td><td class="v">R$ 17,99</td><td class="v">R$ 20,49</td><td class="v">R$ 25,00</td></tr>
+    <tr><td>100 a 149 placas</td><td class="v">R$ 17,49</td><td class="v">R$ 19,99</td><td class="v">R$ 24,49</td></tr>
+    <tr class="best"><td>150 placas ou mais <span class="badge">Melhor preço</span></td><td class="v">R$ 16,99</td><td class="v">R$ 19,49</td><td class="v">R$ 23,49</td></tr>
     <tr><td>250 placas ou mais</td><td class="neg" colspan="3">A negociar</td></tr>
    </tbody>
   </table>
@@ -298,9 +298,9 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
 var WHATSAPP="5585997307346";
 (function(){
  var P={google:19.99,instagram:22.99,personalizada:27.99},N={google:'Google',instagram:'Instagram',personalizada:'Personalizada'};
- // Tabela de preços por quantidade (mesma regra do servidor): 19 -> 17 -> 16,50 -> 16
- function tf(n){return n>=150?16/19:n>=100?16.5/19:n>=50?17/19:1}
- function pu(k,n){return Math.round(Math.round(P[k]*100)*tf(n))/100}
+ // Tabela de preços por quantidade (mesma do servidor): preços fechados em ,00 / ,49 / ,99
+ var FX=[{m:150,p:{google:16.99,instagram:19.49,personalizada:23.49}},{m:100,p:{google:17.49,instagram:19.99,personalizada:24.49}},{m:50,p:{google:17.99,instagram:20.49,personalizada:25.00}}];
+ function pu(k,n){for(var i=0;i<FX.length;i++)if(n>=FX[i].m)return FX[i].p[k];return P[k]}
  var frete=null,opcoes=[];
  var $=function(id){return document.getElementById(id)};
  function brl(v){return 'R$ '+v.toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.')}

@@ -62,3 +62,18 @@
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', montar); else montar();
 })();
+
+// Link das políticas no rodapé.
+(function () {
+  function montar() {
+    var f = document.querySelector('footer .wrap');
+    if (!f || document.getElementById('link-politicas')) return;
+    var a = document.createElement('a');
+    a.id = 'link-politicas';
+    a.href = '/politica.html';
+    a.textContent = 'Troca, envio e privacidade';
+    a.style.cssText = 'color:inherit;text-decoration:underline';
+    f.appendChild(a);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', montar); else montar();
+})();

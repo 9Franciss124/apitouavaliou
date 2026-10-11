@@ -53,7 +53,7 @@
     document.head.appendChild(st);
     var a = document.createElement('a');
     a.id = 'wa-flutuante';
-    a.href = 'https://wa.me/' + num + '?text=' + encodeURIComponent('Oi! Vim pelo site da Apitou Avaliou e queria tirar uma dúvida.');
+    a.href = 'https://wa.me/' + num + '?text=' + encodeURIComponent('Olá! Estou no site da Apitou Avaliou e preciso tirar algumas dúvidas sobre as placas NFC.');
     a.target = '_blank';
     a.rel = 'noopener';
     a.setAttribute('aria-label', 'Falar no WhatsApp');

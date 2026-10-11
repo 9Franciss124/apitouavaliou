@@ -1,6 +1,6 @@
 // POST /api/checkout  { cliente, endereco, itens, freteId }  ->  { url }
 // Recalcula tudo no servidor (preços e frete) antes de criar a preferência no Mercado Pago.
-const { PRECOS, NOMES, lerItens, subtotal, soDigitos, cepValido, json, cotarFrete } = require('./_lib');
+const { PRECOS, NOMES, precoUnit, lerItens, subtotal, soDigitos, cepValido, json, cotarFrete } = require('./_lib');
 const db = require('./_db');
 
 const emailOk = (s) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(s || ''));
@@ -39,7 +39,7 @@ exports.handler = async (event) => {
 
   const pedido = 'AA-' + Date.now().toString(36).toUpperCase();
   const items = Object.keys(PRECOS).filter((k) => itens[k] > 0).map((k) => ({
-    id: k, title: NOMES[k], quantity: itens[k], unit_price: PRECOS[k], currency_id: 'BRL'
+    id: k, title: NOMES[k], quantity: itens[k], unit_price: precoUnit(k, total), currency_id: 'BRL'
   }));
   const complemento = txt(e.complemento, 60);
   const preference = {

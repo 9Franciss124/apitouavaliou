@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Barbearia Tradicional | Agende seu horário</title>
+<meta name="description" content="Proposta de site com agendamento e Clube de assinaturas para a Barbearia Tradicional, em Belo Horizonte.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bk:#0b0b0c;--bk2:#151516;--bk3:#1f1f21;--rd:#c93a35;--rd2:#e0504a;--wh:#fff;--mut:#a7a7ad;--ln:#2b2b2e;--bl:#2a4a9a}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bk);color:var(--wh);font:400 16px/1.55 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{width:min(1100px,100% - 40px);margin:0 auto}
+.ex{background:#f6c445;color:#1b1b1b;font-size:13px;text-align:center;padding:8px 14px;font-weight:600}
+.ex b{font-weight:700}
+header{position:sticky;top:0;z-index:20;background:rgba(11,11,12,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--ln)}
+.hd{display:flex;align-items:center;justify-content:space-between;height:64px;gap:14px}
+.brand{font:700 20px/1 Oswald,sans-serif;text-transform:uppercase;letter-spacing:.04em;text-decoration:none;display:flex;align-items:center;gap:10px}
+.brand i{width:12px;height:30px;border-radius:6px;background:repeating-linear-gradient(135deg,var(--rd) 0 6px,#fff 6px 12px,var(--bl) 12px 18px)}
+.brand span{color:var(--rd2)}
+nav{display:none;gap:26px;font-size:14px;font-weight:500;color:var(--mut)}
+nav a{text-decoration:none}nav a:hover{color:#fff}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 22px;border:0;border-radius:10px;background:var(--rd);color:#fff;font:600 15px Inter,sans-serif;text-decoration:none;cursor:pointer;transition:.15s}
+.btn:hover{background:var(--rd2)}
+.btn.ghost{background:transparent;border:1.5px solid #4a4a4f}.btn.ghost:hover{border-color:#fff;background:transparent}
+.btn.sm{min-height:38px;padding:0 16px;font-size:14px}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+@media(min-width:820px){nav{display:flex}}
+.hero{position:relative;padding:64px 0 72px;overflow:hidden;background:radial-gradient(900px 400px at 85% 0,#2a0f0f 0,transparent 70%),var(--bk)}
+.hero .wrap{display:grid;gap:36px;align-items:center}
+.kick{font:600 13px Inter;letter-spacing:.16em;text-transform:uppercase;color:var(--rd2);margin:0 0 14px}
+h1{font:700 clamp(44px,11vw,84px)/.98 Oswald,sans-serif;text-transform:uppercase;margin:0 0 18px;letter-spacing:.01em}
+h1 em{font-style:normal;color:var(--rd2)}
+.lead{color:#c9c9ce;font-size:18px;max-width:46ch;margin:0 0 26px}
+.cta{display:flex;flex-wrap:wrap;gap:12px}
+.pole{justify-self:center;width:120px;height:300px;border-radius:60px;border:6px solid #2a2a2d;background:repeating-linear-gradient(160deg,var(--rd) 0 28px,#fff 28px 56px,var(--bl) 56px 84px);box-shadow:inset 0 0 30px rgba(0,0,0,.45),0 20px 60px rgba(201,58,53,.25);position:relative}
+.pole:before,.pole:after{content:"";position:absolute;left:50%;transform:translateX(-50%);width:150px;height:26px;border-radius:12px;background:#d8d8dc;box-shadow:inset 0 -6px 10px rgba(0,0,0,.3)}
+.pole:before{top:-22px}.pole:after{bottom:-22px}
+@media(min-width:820px){.hero .wrap{grid-template-columns:1.3fr .7fr}.pole{height:360px;width:136px}}
+.info{background:var(--bk2);border-block:1px solid var(--ln)}
+.info .wrap{display:grid;gap:0}
+.info .wrap>div{padding:16px 0;border-bottom:1px solid var(--ln)}.info .wrap>div:last-child{border:0}
+.info small{display:block;color:var(--mut);font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}
+.info b{font-weight:600}
+@media(min-width:820px){.info .wrap{grid-template-columns:repeat(3,1fr);gap:24px}.info .wrap>div{border:0;padding:22px 0}}
+section{padding:72px 0}
+h2{font:700 clamp(32px,7vw,48px)/1.02 Oswald,sans-serif;text-transform:uppercase;margin:0 0 10px}
+.sub{color:var(--mut);margin:0 0 34px;max-width:56ch}
+.srv{display:grid;gap:14px;grid-template-columns:repeat(2,1fr)}
+.srv article{background:var(--bk2);border:1px solid var(--ln);border-radius:16px;padding:22px 18px}
+.srv svg{width:34px;height:34px;stroke:var(--rd2);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-bottom:12px}
+.srv h3{font:600 20px Oswald;text-transform:uppercase;margin:0 0 4px;letter-spacing:.03em}
+.srv p{margin:0;color:var(--mut);font-size:14px}
+@media(min-width:820px){.srv{grid-template-columns:repeat(4,1fr)}}
+.plans{background:var(--bk2);border-block:1px solid var(--ln)}
+.pl{display:grid;gap:18px;padding-top:14px}
+.plan{position:relative;background:var(--bk);border:1px solid var(--ln);border-radius:18px;padding:26px 22px}
+.plan.top{border-color:var(--rd)}
+.tag{position:absolute;top:-13px;left:22px;background:var(--rd);font:600 12px Inter;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:99px}
+.plan h3{font:600 22px Oswald;text-transform:uppercase;margin:0 0 6px;letter-spacing:.04em}
+.price{font:700 44px/1 Oswald;margin:0 0 2px}.price small{font:500 15px Inter;color:var(--mut)}
+.unl{color:var(--rd2);font:600 13px Inter;letter-spacing:.12em;margin:0 0 16px}
+.plan ul{list-style:none;margin:0 0 22px;padding:16px 0 0;border-top:1px dashed var(--ln)}
+.plan li{display:flex;gap:10px;padding:5px 0;font-size:15px}
+.plan li:before{content:"✓";color:var(--rd2);font-weight:700}
+.plan li.no{color:#6d6d73;text-decoration:line-through}.plan li.no:before{content:"✕";color:#6d6d73}
+.plan .btn{width:100%}
+@media(min-width:820px){.pl{grid-template-columns:repeat(3,1fr)}}
+.book{display:grid;gap:26px}.book>*{min-width:0}
+.card{background:var(--bk2);border:1px solid var(--ln);border-radius:18px;padding:22px}
+.card h3{font:600 14px Inter;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);margin:0 0 14px}
+.card h3 b{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--rd);color:#fff;margin-right:8px;font-size:13px}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{border:1.5px solid #3a3a3e;background:transparent;color:#fff;border-radius:99px;padding:10px 18px;font:500 15px Inter;cursor:pointer;transition:.12s}
+.chip:hover{border-color:#fff}.chip[aria-pressed=true]{background:var(--rd);border-color:var(--rd)}
+.days{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin}
+.day{flex:0 0 74px;border:1.5px solid #3a3a3e;border-radius:14px;background:transparent;color:#fff;padding:10px 0;text-align:center;cursor:pointer;font-family:Inter}
+.day small{display:block;color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+.day b{font:600 22px Oswald}
+.day[aria-pressed=true]{background:var(--rd);border-color:var(--rd)}.day[aria-pressed=true] small{color:#ffd9d7}
+.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.slot{border:1.5px solid #3a3a3e;border-radius:10px;background:transparent;color:#fff;padding:10px 0;font:500 14px Inter;cursor:pointer}
+.slot[aria-pressed=true]{background:var(--rd);border-color:var(--rd)}
+.slot:disabled{opacity:.28;cursor:not-allowed;text-decoration:line-through}
+.slots:empty:after{content:"Escolha um dia para ver os horários.";color:var(--mut);grid-column:1/-1;font-size:14px}
+input[type=text]{width:100%;height:48px;border-radius:10px;border:1.5px solid #3a3a3e;background:var(--bk);color:#fff;padding:0 14px;font:400 16px Inter}
+input:focus{outline:2px solid var(--rd);border-color:transparent}
+.sum{color:var(--mut);font-size:14px;margin:0 0 14px;min-height:21px}
+.sum b{color:#fff}
+.note{color:var(--mut);font-size:12.5px;margin:12px 0 0}
+@media(min-width:820px){.book{grid-template-columns:1.4fr .6fr;align-items:start}.slots{grid-template-columns:repeat(5,1fr)}}
+.loc{display:grid;gap:26px}
+.hrs{list-style:none;margin:0;padding:0}
+.hrs li{display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--ln)}
+.hrs li span:last-child{font-weight:600}.hrs .cl span:last-child{color:var(--rd2)}
+.addr{font:600 22px/1.25 Oswald;text-transform:uppercase;margin:0 0 16px;letter-spacing:.03em}
+@media(min-width:820px){.loc{grid-template-columns:1fr 1fr}}
+footer{border-top:1px solid var(--ln);padding:30px 0 90px;color:var(--mut);font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:10px 28px;justify-content:space-between}
+.float{position:fixed;left:16px;right:16px;bottom:14px;z-index:30;display:flex}
+.float .btn{width:100%;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+@media(min-width:820px){.float{display:none}footer{padding-bottom:30px}}
+</style>
+</head>
+<body>
+<div class="ex">Proposta de site feita para a <b>Barbearia Tradicional</b> pela <b>Apitou Avaliou</b>. Exemplo: o agendamento aqui é uma demonstração.</div>
+
+<header><div class="wrap hd">
+  <a class="brand" href="#top"><i></i>Barbearia <span>Tradicional</span></a>
+  <nav><a href="#servicos">Serviços</a><a href="#clube">Clube</a><a href="#agendar">Agendar</a><a href="#onde">Onde estamos</a></nav>
+  <a class="btn sm" href="#agendar">Agendar</a>
+</div></header>
+
+<main id="top">
+<div class="hero"><div class="wrap">
+  <div>
+    <p class="kick">Referência em barbearia em BH</p>
+    <h1>Estilo que <em>surpreende</em></h1>
+    <p class="lead">Cabelo, barba e produtos em um ambiente climatizado. Escolha o horário em poucos toques e venha sem esperar.</p>
+    <div class="cta"><a class="btn" href="#agendar">Agendar meu horário</a><a class="btn ghost" href="#clube">Conhecer o Clube</a></div>
+  </div>
+  <div class="pole" aria-hidden="true"></div>
+</div></div>
+
+<div class="info"><div class="wrap">
+  <div><small>Horário</small><b>Seg a sex, 9h às 19h30 · Sáb, 9h às 16h30</b></div>
+  <div><small>Endereço</small><b>Rua dos Goitacazes, 407 · Belo Horizonte</b></div>
+  <div><small>Domingo</small><b>Fechado</b></div>
+</div></div>
+
+<section id="servicos"><div class="wrap">
+  <h2>Serviços</h2><p class="sub">Tudo para sair da cadeira com o estilo em dia.</p>
+  <div class="srv">
+    <article><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.1 15.9M14.5 14.5 20 20M8.1 8.1 12 12"/></svg><h3>Cabelo</h3><p>Corte do clássico ao moderno.</p></article>
+    <article><svg viewBox="0 0 24 24"><path d="M5 10c0 7 3 11 7 11s7-4 7-11"/><path d="M5 10c2-3 4-3 7-3s5 0 7 3"/><path d="M9 14c1 1 2 1.5 3 1.5s2-.5 3-1.5"/></svg><h3>Barba</h3><p>Modelagem e acabamento na navalha.</p></article>
+    <article><svg viewBox="0 0 24 24"><path d="M4 20 20 4"/><path d="M4 12l8 8M12 4l8 8"/></svg><h3>Pezinho</h3><p>Acabamento limpo entre os cortes.</p></article>
+    <article><svg viewBox="0 0 24 24"><rect x="7" y="9" width="10" height="12" rx="2"/><path d="M10 9V5h4v4M9 14h6"/></svg><h3>Produtos</h3><p>Linha para cuidar em casa.</p></article>
+  </div>
+</div></section>
+
+<section id="clube" class="plans"><div class="wrap">
+  <h2>Clube Tradicional</h2><p class="sub">Assine e corte à vontade, todo mês. Quem assina ainda ganha 10% de desconto em produtos.</p>
+  <div class="pl">
+    <div class="plan top"><span class="tag">Mais vendido</span><h3>Clube Corte + Barba</h3><p class="price">R$ 170<small>,00 / mês</small></p><p class="unl">ILIMITADO</p>
+      <ul><li>Convidado VIP mensal</li><li>Corte ilimitado</li><li>Barba ilimitada</li><li>Pezinho</li><li>Ambiente climatizado</li><li>10% de desconto em produtos</li></ul>
+      <button class="btn plan-btn" data-plano="Clube Corte+Barba (R$ 170/mês)">Assinar</button></div>
+    <div class="plan"><h3>Clube Barba</h3><p class="price">R$ 115<small>,00 / mês</small></p><p class="unl">ILIMITADO</p>
+      <ul><li>Convidado VIP mensal</li><li class="no">Corte ilimitado</li><li>Barba ilimitada</li><li class="no">Pezinho</li><li>Ambiente climatizado</li><li>10% de desconto em produtos</li></ul>
+      <button class="btn plan-btn" data-plano="Clube Barba (R$ 115/mês)">Assinar</button></div>
+    <div class="plan"><h3>Clube Corte</h3><p class="price">R$ 105<small>,00 / mês</small></p><p class="unl">ILIMITADO</p>
+      <ul><li>Convidado VIP mensal</li><li>Corte ilimitado</li><li class="no">Barba ilimitada</li><li>Pezinho</li><li>Ambiente climatizado</li><li>10% de desconto em produtos</li></ul>
+      <button class="btn plan-btn" data-plano="Clube Corte (R$ 105/mês)">Assinar</button></div>
+  </div>
+</div></section>
+
+<section id="agendar"><div class="wrap">
+  <h2>Agende seu horário</h2><p class="sub">Escolha o serviço, o dia e a hora. A confirmação chega pelo WhatsApp.</p>
+  <div class="book">
+    <div style="display:grid;gap:18px">
+      <div class="card"><h3><b>1</b>Serviço</h3><div class="chips" id="svc">
+        <button class="chip" aria-pressed="false">Cabelo</button><button class="chip" aria-pressed="false">Barba</button><button class="chip" aria-pressed="false">Cabelo + barba</button><button class="chip" aria-pressed="false">Pezinho</button></div></div>
+      <div class="card"><h3><b>2</b>Dia</h3><div class="days" id="days"></div></div>
+      <div class="card"><h3><b>3</b>Horário</h3><div class="slots" id="slots"></div></div>
+    </div>
+    <div class="card" style="position:sticky;top:84px"><h3><b>4</b>Seus dados</h3>
+      <input type="text" id="nome" placeholder="Seu nome" autocomplete="name" aria-label="Seu nome">
+      <p class="sum" id="sum" style="margin-top:14px">Escolha serviço, dia e horário.</p>
+      <button class="btn" id="go" style="width:100%" disabled>Confirmar pelo WhatsApp</button>
+      <p class="note">Demonstração: os horários ocupados são de exemplo.</p>
+    </div>
+  </div>
+</div></section>
+
+<section id="onde" style="padding-top:0"><div class="wrap loc">
+  <div class="card"><h3>Horário de atendimento</h3>
+    <ul class="hrs"><li><span>Segunda a sexta</span><span>09h às 19h30</span></li><li><span>Sábado</span><span>09h às 16h30</span></li><li class="cl"><span>Domingo</span><span>Fechado</span></li></ul></div>
+  <div class="card"><h3>Como chegar</h3>
+    <p class="addr">Rua dos Goitacazes, 407<br>Belo Horizonte, MG</p>
+    <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Rua+dos+Goitacazes+407+Belo+Horizonte">Abrir no mapa</a>
+    <a class="btn ghost" target="_blank" rel="noopener" href="https://instagram.com/barbearia_tradicional.bh" style="margin-left:8px">@barbearia_tradicional.bh</a></div>
+</div></section>
+</main>
+
+<footer><div class="wrap"><span>© Barbearia Tradicional · Belo Horizonte</span><span>Site de exemplo feito pela Apitou Avaliou</span></div></footer>
+<div class="float"><a class="btn" href="#agendar">Agendar meu horário</a></div>
+
+<script>
+(function(){
+ var ZAP='5585997307346'; /* número de demonstração; trocar pelo da barbearia */
+ var $=function(i){return document.getElementById(i)};
+ var DIAS=['dom','seg','ter','qua','qui','sex','sáb'],DFULL=['domingo','segunda','terça','quarta','quinta','sexta','sábado'];
+ var st={svc:null,day:null,slot:null};
+ function wa(msg){window.open('https://wa.me/'+ZAP+'?text='+encodeURIComponent(msg),'_blank')}
+ function hora(d){ /* [inicio,fim] em minutos, último início */
+  var w=d.getDay();if(w===0)return null;if(w===6)return[9*60,16*60];return[9*60,19*60]}
+ function ocupado(d,m){var s=d.getDate()*31+d.getMonth()*7+m/30*13;return (s*7919)%10<3}
+ function pad(n){return (n<10?'0':'')+n}
+ function fmt(m){return pad(Math.floor(m/60))+':'+pad(m%60)}
+ function sum(){
+  var ok=st.svc&&st.day&&st.slot!==null;
+  $('sum').innerHTML=ok?'<b>'+st.svc+'</b><br>'+DFULL[st.day.getDay()]+', '+pad(st.day.getDate())+'/'+pad(st.day.getMonth()+1)+' às <b>'+fmt(st.slot)+'</b>':'Escolha serviço, dia e horário.';
+  $('go').disabled=!(ok&&$('nome').value.trim().length>1)}
+ [].forEach.call($('svc').children,function(b){b.onclick=function(){[].forEach.call($('svc').children,function(x){x.setAttribute('aria-pressed','false')});b.setAttribute('aria-pressed','true');st.svc=b.textContent;sum()}});
+ var hoje=new Date(),n=0,i=0,dd=$('days');
+ while(n<10&&i<20){var d=new Date(hoje.getFullYear(),hoje.getMonth(),hoje.getDate()+i);i++;if(d.getDay()===0)continue;n++;
+  (function(d){var b=document.createElement('button');b.className='day';b.setAttribute('aria-pressed','false');
+   b.innerHTML='<small>'+(d.toDateString()===hoje.toDateString()?'hoje':DIAS[d.getDay()])+'</small><b>'+pad(d.getDate())+'</b>';
+   b.onclick=function(){[].forEach.call(dd.children,function(x){x.setAttribute('aria-pressed','false')});b.setAttribute('aria-pressed','true');st.day=d;st.slot=null;slots();sum()};dd.appendChild(b)})(d)}
+ function slots(){var s=$('slots');s.innerHTML='';var h=hora(st.day);if(!h)return;var agora=hoje.getHours()*60+hoje.getMinutes();
+  for(var m=h[0];m<=h[1];m+=30){(function(m){var b=document.createElement('button');b.className='slot';b.setAttribute('aria-pressed','false');b.textContent=fmt(m);
+   var passou=st.day.toDateString()===hoje.toDateString()&&m<=agora+20;b.disabled=passou||ocupado(st.day,m);
+   b.onclick=function(){[].forEach.call(s.children,function(x){x.setAttribute('aria-pressed','false')});b.setAttribute('aria-pressed','true');st.slot=m;sum()};s.appendChild(b)})(m)}}
+ $('nome').oninput=sum;
+ $('go').onclick=function(){wa('[EXEMPLO] Olá! Sou '+$('nome').value.trim()+'. Quero agendar '+st.svc+' na '+DFULL[st.day.getDay()]+', '+pad(st.day.getDate())+'/'+pad(st.day.getMonth()+1)+', às '+fmt(st.slot)+'.')};
+ [].forEach.call(document.querySelectorAll('.plan-btn'),function(b){b.onclick=function(){wa('[EXEMPLO] Olá! Quero assinar o plano '+b.dataset.plano+'.')}});
+})();
+</script>
+</body>
+</html>

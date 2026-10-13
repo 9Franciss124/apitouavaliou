@@ -130,7 +130,7 @@ header p{color:#43584f}
  <p>New York style com sotaque brasiliense. Por fatia ou inteira, quentinha.</p>
  <ul class="info">
   <li><span class="dot" aria-hidden="true"></span>Segunda a domingo, 18h30 às 22h30</li>
-  <li>310 Noroeste, Brasília</li>
+  <li>SHCNW SQNW 310 Bloco LRS, Brasília</li>
  </ul>
  <svg class="wave" style="margin-top:18px" viewBox="0 0 400 26" preserveAspectRatio="none" aria-hidden="true"><path d="M0 14 C 25 2, 50 2, 75 14 S 125 26, 150 14 S 200 2, 225 14 S 275 26, 300 14 S 350 2, 375 14 S 400 20, 400 14 L400 26 L0 26Z" fill="#ffffff"/></svg>
 </header>
@@ -141,7 +141,7 @@ header p{color:#43584f}
 
 <div class="foot">
  <p><b>Como funciona:</b> o cliente encosta o celular na placa NFC da mesa ou do balcão, o cardápio abre e o pedido chega no WhatsApp da pizzaria.</p>
- <p class="chef">Pizzas do chef Ville Della Penna · cardápio de exemplo, valores de novembro de 2025 · 310 Noroeste, Brasília · segunda a domingo, 18h30 às 22h30 · @villazza.slice</p>
+ <p class="chef">Pizzas do chef Ville Della Penna · cardápio de exemplo, valores de novembro de 2025 · SHCNW SQNW 310 Bloco LRS, Brasília · segunda a domingo, 18h30 às 22h30 · @villazza.slice · villazza.com</p>
  <p>Quer um cardápio assim para o seu comércio? <a href="https://wa.me/5585997307346?text=Ol%C3%A1!%20Quero%20uma%20placa%20NFC%20com%20card%C3%A1pio%20digital.">Fale com a gente</a>.</p>
 </div>
 </div>
@@ -279,6 +279,37 @@ header p{color:#43584f}
    s+='<circle cx="100" cy="98" r="34" fill="#f6ead2"/><circle cx="88" cy="88" r="9" fill="#fff" opacity=".6"/>';
    s+='<path d="M68 96 C 76 112 86 98 94 112 C 100 120 108 100 116 112 C 124 104 130 96 132 98 L132 90 C 120 74 80 74 68 90 Z" fill="#4a2a1c"/>';
    return s},
+   sand:function(o){
+   var s='<ellipse cx="100" cy="186" rx="72" ry="6" fill="rgba(16,32,31,.16)"/>';
+   s+='<rect x="22" y="132" width="156" height="34" rx="17" fill="#e6a548"/><rect x="30" y="138" width="140" height="8" rx="4" fill="#f4c677" opacity=".7"/>';
+   var c=o.l||['#6fae4a','#b3362b','#f3e9c8'],y=132,i;
+   for(i=0;i<c.length;i++){s+=wave(y-2-i*10,c[i],11);}
+   s+='<rect x="22" y="'+(132-c.length*10-26)+'" width="156" height="34" rx="17" fill="#eeb257"/>';
+   var ty=132-c.length*10-26;
+   s+='<rect x="34" y="'+(ty+6)+'" width="132" height="8" rx="4" fill="#f8d28d" opacity=".75"/>';
+   [[60,ty+22],[92,ty+25],[126,ty+21],[152,ty+24]].forEach(function(p){s+='<ellipse cx="'+p[0]+'" cy="'+p[1]+'" rx="4" ry="2.4" fill="#c98b3d"/>'});
+   return s},
+  focaccia:function(){
+   var s='<ellipse cx="100" cy="176" rx="80" ry="8" fill="rgba(16,32,31,.16)"/>';
+   s+='<ellipse cx="100" cy="132" rx="84" ry="48" fill="#cf8a34"/><ellipse cx="100" cy="126" rx="80" ry="45" fill="#eeb257"/><ellipse cx="100" cy="124" rx="70" ry="38" fill="#f4c677"/>';
+   [[62,112],[92,100],[128,108],[150,126],[116,138],[78,134],[100,120],[56,134],[138,98]].forEach(function(p){s+='<ellipse cx="'+p[0]+'" cy="'+p[1]+'" rx="7" ry="4" fill="#d9993f"/>'});
+   [[74,104],[110,112],[132,130],[90,142],[60,122]].forEach(function(p){s+='<path d="M'+p[0]+' '+p[1]+' l8 -4 M'+p[0]+' '+p[1]+' l6 5" stroke="#4f8a3a" stroke-width="3" stroke-linecap="round"/>'});
+   [[100,92],[120,124],[80,120],[144,112]].forEach(function(p){s+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="2" fill="#fff"/>'});
+   return s},
+  wine:function(){
+   var s='<ellipse cx="100" cy="188" rx="46" ry="5" fill="rgba(16,32,31,.16)"/>';
+   s+='<path d="M64 40 L136 40 C140 90 124 118 100 122 C76 118 60 90 64 40 Z" fill="rgba(255,255,255,.55)" stroke="#bcb3c4" stroke-width="3"/>';
+   s+='<path d="M67 78 L133 78 C131 100 120 114 100 117 C80 114 69 100 67 78 Z" fill="#8c1f3a"/>';
+   s+='<rect x="96" y="120" width="8" height="52" rx="3" fill="#cfc6d4"/><ellipse cx="100" cy="176" rx="30" ry="6" fill="#cfc6d4"/>';
+   s+='<path d="M76 50 L80 90" stroke="rgba(255,255,255,.8)" stroke-width="4" stroke-linecap="round"/>';
+   return s},
+  wineb:function(){
+   var s='<ellipse cx="100" cy="188" rx="40" ry="5" fill="rgba(16,32,31,.16)"/>';
+   s+='<path d="M90 16 L110 16 L110 76 C110 92 134 100 134 126 L134 178 Q134 186 126 186 L74 186 Q66 186 66 178 L66 126 C66 100 90 92 90 76 Z" fill="#2f4a2c"/>';
+   s+='<rect x="88" y="10" width="24" height="16" rx="3" fill="#6f1d1b"/>';
+   s+='<rect x="66" y="128" width="68" height="46" fill="#f2ede4"/><text x="100" y="156" text-anchor="middle" font-family="serif" font-size="14" fill="#6f1d1b">Villazza</text>';
+   s+='<path d="M76 130 L76 178" stroke="rgba(255,255,255,.3)" stroke-width="4" stroke-linecap="round"/>';
+   return s},
   pudim:function(){
    var s='<ellipse cx="100" cy="184" rx="74" ry="9" fill="rgba(16,32,31,.16)"/><ellipse cx="100" cy="172" rx="76" ry="14" fill="#fff"/><ellipse cx="100" cy="170" rx="56" ry="9" fill="#eef5f4"/>';
    s+='<path d="M54 160 L66 100 Q100 82 134 100 L146 160 Z" fill="#f4c364"/>';
@@ -296,6 +327,10 @@ header p{color:#43584f}
   ['Portuguesa','Molho de tomate pelati, mozzarella, calabresa, presunto, ovo, azeitona preta, pimentão e cebola.',['Molho de tomate pelati','Mozzarella','Calabresa','Presunto','Ovo','Azeitona preta','Pimentão','Cebola'],94,146,18,'calabresa','','','s'],
   ['3 queijos','Molho de tomate pelati, mozzarella, gorgonzola e requeijão.',['Molho de tomate pelati','Mozzarella','Gorgonzola','Requeijão'],89,138,17,'quatro','','','s'],
   ['Frango com requeijão','Molho de tomate pelati, mozzarella, frango com requeijão cremoso da fazenda.',['Molho de tomate pelati','Mozzarella','Frango','Requeijão cremoso da fazenda'],86,130,15,'frango','','','s'],
+  ['Milho e bacon','Molho de tomate pelati, mozzarella, milho e bacon com perfume de limão siciliano.',['Molho de tomate pelati','Mozzarella','Milho','Bacon','Limão siciliano'],86,130,16,'frango','','','s'],
+  ['Mozzarella','Molho de tomate pelati, mozzarella e manjericão.',['Molho de tomate pelati','Mozzarella','Manjericão'],79,124,14,'marguerita','','','s'],
+  ['Fugazzeta','Pizza estilo torta com molho de tomate pelati, mozzarella, cebola e chimichurri.',['Molho de tomate pelati','Mozzarella','Cebola','Chimichurri'],null,null,20,'marguerita','','','s'],
+  ['Frango crocante com creme de milho','Molho de tomate pelati, mozzarella com frango crocante com creme de milho, finalizado com barbecue e molho ranch.',['Molho de tomate pelati','Mozzarella','Frango crocante','Creme de milho','Barbecue','Molho ranch'],86,130,16,'frango','','','s'],
   ['Banoffe','Mozzarella, banana, canela e açúcar.',['Mozzarella','Banana','Canela','Açúcar'],86,130,16,'banoffe','#f7e3a0','Doce','d'],
   ['Chocolate','Mozzarella e chocolate ao leite.',['Mozzarella','Chocolate ao leite'],86,130,16,'choco','#7a4a2c','Doce','d'],
   ['Doce de leite','Mozzarella, doce de leite, finalizada com parmesão ralado.',['Mozzarella','Doce de leite','Parmesão ralado'],86,130,16,'choco','#d99a4e','Doce','d'],
@@ -307,22 +342,40 @@ header p{color:#43584f}
  var MENU=[
   {id:'fatias',nome:'Fatias',sub:'Peça uma fatia e coma na hora.',bg:'#f6ead2',blob:'#f2c14e',itens:[]},
   {id:'p35',nome:'Pizza 35 cm',sub:'Na massa, cama de molho de tomate e mozzarella.',bg:'#e3eee9',blob:'#9fcdbb',itens:[]},
-  {id:'p50',nome:'Pizza 50 cm',sub:'Na massa, cama de molho de tomate e mozzarella.',bg:'#e3eee9',blob:'#9fcdbb',itens:[]},
-  {id:'acomp',nome:'Acompanhamentos',sub:'Molhos e coberturas.',bg:'#f3e3dc',blob:'#e9b8a6',itens:[]}
+  {id:'p50',nome:'Pizza 50 cm',sub:'Tem pizza… e tem PIZZA. 50 cm de massa fermentada, molho feito na casa e queijo que estica.',bg:'#e3eee9',blob:'#9fcdbb',itens:[]},
+  {id:'schiacciata',nome:'Schiacciata',sub:'Sanduíche italiano feito com focaccia baixa e recheios variados, comum na região de Lazio e Roma.',bg:'#f6ead2',blob:'#e3a857',itens:[]},
+  {id:'acomp',nome:'Acompanhamentos',sub:'Molhos e coberturas.',bg:'#f3e3dc',blob:'#e9b8a6',itens:[]},
+  {id:'bebidas',nome:'Bebidas',sub:'Para acompanhar.',bg:'#e3eef5',blob:'#9cc7da',itens:[]},
+  {id:'alcool',nome:'Bebidas alcoólicas',sub:'Venda para maiores de 18 anos.',bg:'#f3e6e6',blob:'#d8aab2',itens:[]}
  ];
  SAB.forEach(function(s){
   var n=s[0],ing=s[2],top=ing.slice(s[9]==='s'?2:1).join(', ').toLowerCase();
   var o={kind:s[6],base:s[7]||undefined},steps=[['Massa','Massa fermentada com calma, aberta à mão.'],[s[9]==='v'?'Creme':'Base',s[9]==='v'?'Creme de queijo vegano no lugar da mozzarella.':'Cama de molho de tomate e mozzarella.'],['Cobertura','Entram: '+top+'.'],['Forno','Assa bem quente, até a borda dourar.']];
   MENU[0].itens.push(['Fatia '+n,s[1],s[5],s[8],'fatia',o]);
-  MENU[1].itens.push([n+' 35 cm',s[1],s[3],s[8],'pizza',o]);
-  MENU[2].itens.push([n+' 50 cm',s[1],s[4],s[8],'pizza',o]);
+  if(s[3]!=null)MENU[1].itens.push([n+' 35 cm',s[1],s[3],s[8],'pizza',o]);
+  if(s[4]!=null)MENU[2].itens.push([n+' 50 cm',s[1],s[4],s[8],'pizza',o]);
   DET['Fatia '+n]={t:'3 min',ing:ing,p:[['Da vitrine','Cortamos uma fatia da pizza que acabou de sair.'],['Reaquecer','Volta ao forno por 2 minutos.'],['Servir','Quentinha, na hora.']]};
   DET[n+' 35 cm']={t:'18 min',ing:ing,p:steps};DET[n+' 50 cm']={t:'20 min',ing:ing,p:steps};
  });
  ACOMP.forEach(function(a){
-  MENU[3].itens.push([a[0],'Acompanhamento da casa.',a[1],0,'molho',{c:a[2]}]);
+  MENU[4].itens.push([a[0],'Acompanhamento da casa.',a[1],0,'molho',{c:a[2]}]);
   DET[a[0]]={t:'1 min',ing:[a[0]],p:[['Da casa','Preparado na cozinha da pizzaria.'],['Servir','Vai em um potinho, junto com o seu pedido.']]};
  });
+
+ var SCH=[
+  ['Schiacciata de Pepperoni','Salada deli, alface americana, pepperoni, rúcula, champignon, azeitona preta, cebola roxa e molho ranch.',24,['Salada deli','Alface americana','Pepperoni','Rúcula','Champignon','Azeitona preta','Cebola roxa','Molho ranch'],['#6fae4a','#a3321f','#f3e9c8','#8b5a7a']],
+  ['Schiacciata de Calabresa','Calabresa curada, folhas frescas e hot honey.',24,['Calabresa curada','Folhas frescas','Hot honey'],['#6fae4a','#a3321f','#e8a23a']],
+  ['Schiacciata Vegana','Creme de queijo vegano, rúcula e abobrinha no missô com cogumelos.',24,['Creme de queijo vegano','Rúcula','Abobrinha no missô','Cogumelos'],['#f3e9c8','#6fae4a','#a69456']],
+  ['Schiacciata Vegetariana','Creme de queijo com alho, rúcula e cogumelos.',24,['Creme de queijo com alho','Rúcula','Cogumelos'],['#f3e9c8','#6fae4a','#a69456']],
+  ['Schiacciata do Dia','Consulte os sabores.',24,[],['#6fae4a','#f3e9c8']]
+ ];
+ SCH.forEach(function(x){MENU[3].itens.push([x[0],x[1],x[2],0,'sand',{l:x[4]}]);DET[x[0]]={t:'',ing:x[3],p:[]}});
+ MENU[3].itens.push(['Focaccia','Pão de fermentação natural, leve por dentro e crocante por fora. Adicione um molho.',20,0,'focaccia',{}]);
+ DET['Focaccia']={t:'',ing:['Massa de fermentação natural'],p:[]};
+ var BEB=[['Refri lata','Lata.',7,'can',{c:'#d6342b'}],['Sucopira','Suco.',10,'glass',{c:'#f5a623',f:'#f5a623'}],['Água','Água mineral.',5,'water',{}],['Água com gás','Água mineral com gás.',6,'water',{}]];
+ BEB.forEach(function(b){MENU[5].itens.push([b[0],b[1],b[2],0,b[3],b[4]]);DET[b[0]]={t:'',ing:[],p:[]}});
+ var ALC=[['Cerveja long neck','Long neck gelada.',12,'beer',{}],['Vinho taça','Consulte as opções.',25,'wine',{}]];
+ ALC.forEach(function(b){MENU[6].itens.push([b[0],b[1],b[2],0,b[3],b[4]]);DET[b[0]]={t:'',ing:[],p:[]}});
  var qty={},$=function(i){return document.getElementById(i)};
  function brl(v){return 'R$ '+v.toFixed(2).replace('.',',')}
  var nav=$('cats'),main=$('menu');
@@ -387,6 +440,7 @@ header p{color:#43584f}
   $('d-desc').textContent=it[1];
   $('d-ing').innerHTML='';d.ing.forEach(function(x){var l=document.createElement('li');l.textContent=x;$('d-ing').appendChild(l)});
   $('d-passos').innerHTML='';d.p.forEach(function(x){var l=document.createElement('li'),b=document.createElement('b'),sp=document.createElement('span');b.textContent=x[0];sp.textContent=x[1];l.appendChild(b);l.appendChild(sp);$('d-passos').appendChild(l)});
+  $('d-ing').previousElementSibling.style.display=d.ing.length?'':'none';$('d-passos').previousElementSibling.style.display=d.p.length?'':'none';
   desenhaBar();
   $('sheet').scrollTop=0;
   voltar=document.activeElement;

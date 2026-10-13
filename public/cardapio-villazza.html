@@ -120,6 +120,13 @@ header p{color:#43584f}
 .promo b{font:800 20px/1.1 'Bricolage Grotesque',sans-serif;display:block}
 .promo span{font-size:13.5px;opacity:.95}
 .chef{margin-top:14px;font-size:13px;color:var(--mut)}
+.chefbox{margin:0 20px;padding:22px 20px;border-radius:24px;background:#fff;box-shadow:0 8px 28px rgba(27,34,48,.08);text-align:center}
+.chefbox .ph{width:132px;height:132px;margin:0 auto 14px;border-radius:50%;background:var(--bgc,#f5e6cc);overflow:hidden;display:grid;place-items:center}
+.chefbox h3{margin:0 0 2px;font-size:22px}.chefbox .role{margin:0 0 14px;color:var(--mut);font-size:14px}
+.chefbox p.txt{margin:0 0 12px;text-align:left;font-size:15px;line-height:1.55}
+.chefbox .tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px}
+.chefbox .tags span{padding:7px 12px;border-radius:99px;background:#f3ece0;font-size:13px;font-weight:600}
+.chefbox .ex{margin-top:14px;font-size:12px;color:var(--mut)}
 </style>
 </head>
 <body>
@@ -484,6 +491,20 @@ header p{color:#43584f}
  });
  window.addEventListener('resize',function(){cars.forEach(efeito)});
  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){cars.forEach(efeito)});
+
+ /* ---------- aba do chef ---------- */
+ (function(){
+  var a=document.createElement('a');a.href='#chef';a.textContent='O chef';a.dataset.id='chef';nav.appendChild(a);
+  var sec=document.createElement('section');sec.id='chef';
+  sec.innerHTML='<div class="sh"><div><h2>O chef</h2><p class="sub">Quem faz a pizza.</p></div></div>'+
+  '<div class="chefbox"><div class="ph"><svg viewBox="0 0 120 120" width="120" height="120" aria-hidden="true"><circle cx="60" cy="74" r="26" fill="#e9b98a"/><path d="M30 52c-10-2-14-18-3-24 3-12 20-14 27-6 8-8 25-5 28 7 11 5 8 21-3 23z" fill="#fff"/><rect x="36" y="48" width="48" height="12" rx="3" fill="#fff"/><circle cx="50" cy="76" r="2.6" fill="#1b2230"/><circle cx="70" cy="76" r="2.6" fill="#1b2230"/><path d="M52 86q8 6 16 0" stroke="#1b2230" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M26 120c4-18 20-22 34-22s30 4 34 22z" fill="#1d5a47"/></svg></div>'+
+  '<h3>Ville Della Penna</h3><p class="role">Chef da Villazza Slice Shop</p>'+
+  '<p class="txt">As pizzas da casa levam a assinatura do chef: massa de fermentação natural, molho de tomate pelati feito na casa e queijo que estica.</p>'+
+  '<p class="txt">Aqui entra a história dele: de onde veio, como começou e o que ele gosta de contar para quem pede uma fatia.</p>'+
+  '<div class="tags"><span>Massa fermentada</span><span>Molho da casa</span><span>New York style</span></div>'+
+  '<p class="ex">Foto e história de exemplo. O restaurante envia os dados reais.</p></div>';
+  main.appendChild(sec);
+ })();
 
  /* ---------- categoria visível ---------- */
  var links=[].slice.call(nav.querySelectorAll('a'));

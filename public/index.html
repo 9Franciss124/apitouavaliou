@@ -188,8 +188,8 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
   <div class="cta"><a class="btn" href="#modelos">Ver os modelos</a></div>
  </div>
  <div class="vid">
-  <video id="vplacas" muted loop playsinline preload="metadata" poster="placas-no-carro.jpg" aria-label="Vídeo mostrando as placas NFC de avaliação do Google"><source src="placas-no-carro.mp4" type="video/mp4"></video>
-  <button class="tog" id="vtog" type="button" aria-label="Pausar vídeo">Pausar</button>
+  <video id="vplacas" muted loop playsinline autoplay preload="auto" disablepictureinpicture poster="placas-no-carro.jpg" aria-label="Vídeo mostrando as placas NFC de avaliação do Google"><source src="placas-no-carro.mp4" type="video/mp4"></video>
+  <button class="tog" id="vtog" type="button" aria-label="Tocar vídeo">▶ Tocar</button>
  </div>
 </div></section>
 
@@ -392,9 +392,14 @@ var WHATSAPP="5585997307346";
 </script>
 <script src="/track.js" defer>
  (function(){var v=document.getElementById('vplacas'),b=document.getElementById('vtog');if(!v||!b)return;
-  function lab(){b.textContent=v.paused?'Tocar':'Pausar';b.setAttribute('aria-label',v.paused?'Tocar vídeo':'Pausar vídeo')}
-  b.addEventListener('click',function(){if(v.paused){v.play()}else{v.pause()}lab()});v.addEventListener('play',lab);v.addEventListener('pause',lab);
-  if('IntersectionObserver' in window){new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var p=v.play();if(p&&p.catch)p.catch(function(){})}else{v.pause()}})},{threshold:.4}).observe(v)}
+  v.muted=true;v.defaultMuted=true;
+  function lab(){var on=!v.paused&&!v.ended;b.textContent=on?'❚❚ Pausar':'▶ Tocar';b.setAttribute('aria-label',on?'Pausar vídeo':'Tocar vídeo')}
+  function tocar(){var p=v.play();if(p&&p.catch)p.catch(function(){lab()})}
+  b.addEventListener('click',function(e){e.stopPropagation();if(v.paused){tocar()}else{v.pause()}});
+  v.addEventListener('click',function(){if(v.paused){tocar()}else{v.pause()}});
+  ['play','playing','pause','ended'].forEach(function(ev){v.addEventListener(ev,lab)});
+  tocar();lab();
+  document.addEventListener('visibilitychange',function(){if(document.hidden)v.pause();else tocar()});
  })();
 </script>
 </body></html>

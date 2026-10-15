@@ -197,7 +197,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
    </dl>
    <div class="ln" style="margin-top:12px"><span id="l-sub">Produtos</span><span id="t-sub">R$ 0,00</span></div><div class="ln" style="margin-top:8px"><span>Frete</span><span id="v-frete">a calcular</span></div><div class="tot"><span id="n-total">0 placas</span><b id="t-total">R$ 0,00</b></div>
    <p class="hint" id="faixa"></p>
-   <p class="hint">O frete é calculado pelo CEP no próximo passo.</p>
+   <p class="hint">O frete é calculado na hora, assim que você digita o CEP.</p>
    <div class="btns"><a class="btn" href="#finalizar" id="go">Finalizar pedido</a><a class="btn ghost" id="wa" href="#simulador" target="_blank" rel="noopener">Falar no WhatsApp</a></div>
    
   </aside>
@@ -205,7 +205,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
 
  <div class="pay" id="finalizar">
   <h3>Entrega e pagamento</h3>
-  <p class="paysub">Preencha os dados para calcular o frete e pagar. Confira o resumo do pedido acima.</p>
+  <p class="paysub">Digite o CEP e o frete aparece na hora, já somado ao total. Depois é só pagar.</p>
   <form id="pf" novalidate>
    <div class="fg">
     <label>Nome completo<input id="f-nome" autocomplete="name" required></label>
@@ -219,7 +219,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
     <label>Cidade<input id="f-cidade" required></label>
     <label>UF<input id="f-uf" maxlength="2" required></label>
    </div>
-   <button class="btn ghost" type="button" id="btn-frete">Calcular frete</button>
+   <button class="btn ghost" type="button" id="btn-frete" style="display:none">Calcular frete</button>
   </form>
   <div id="opts" class="opts" role="radiogroup" aria-label="Opções de entrega"></div>
   <p id="msg" class="msg" role="alert"></p>
@@ -347,12 +347,13 @@ var WHATSAPP="5585997307346";
  }
  function msg(t,ok){var m=$('msg');m.textContent=t||'';m.className='msg'+(ok?' ok':'')}
  document.querySelectorAll('.qty button').forEach(function(b){b.addEventListener('click',function(){
-  var k=b.getAttribute('data-m'),i=$('q-'+k);i.value=Math.max(0,Math.min(2000,q(k)+parseInt(b.getAttribute('data-d'),10)));calc(true)})});
- document.querySelectorAll('.qty input').forEach(function(i){i.addEventListener('input',function(){calc(true)});i.addEventListener('blur',function(){i.value=q(i.id.slice(2));calc(true)})});
+  var k=b.getAttribute('data-m'),i=$('q-'+k);i.value=Math.max(0,Math.min(2000,q(k)+parseInt(b.getAttribute('data-d'),10)));calc(true);autoFrete()})});
+ document.querySelectorAll('.qty input').forEach(function(i){i.addEventListener('input',function(){calc(true);autoFrete()});i.addEventListener('blur',function(){i.value=q(i.id.slice(2));calc(true);autoFrete()})});
  function total(){return q('google')+q('instagram')+q('personalizada')}
  function digits(s){return String(s||'').replace(/\D/g,'')}
  // máscara de CEP e busca de endereço
- $('f-cep').addEventListener('input',function(){var d=digits(this.value).slice(0,8);this.value=d.length>5?d.slice(0,5)+'-'+d.slice(5):d;if(frete||opcoes.length)calc(true);if(d.length===8)buscaCep(d)});
+ $('f-cep').addEventListener('input',function(){var d=digits(this.value).slice(0,8);this.value=d.length>5?d.slice(0,5)+'-'+d.slice(5):d;if(frete||opcoes.length)calc(true);if(d.length===8){buscaCep(d);autoFrete()}});
+ var rt;function autoFrete(){clearTimeout(rt);rt=setTimeout(function(){var b=$('btn-frete');if(digits($('f-cep').value).length===8&&total()>=1&&!b.disabled)b.click()},350)}
  function buscaCep(d){
   fetch('https://viacep.com.br/ws/'+d+'/json/').then(function(r){return r.json()}).then(function(j){
    if(j&&!j.erro){if(j.logradouro)$('f-rua').value=j.logradouro;$('f-bairro').value=j.bairro||'';$('f-cidade').value=j.localidade||'';$('f-uf').value=j.uf||''}
@@ -375,7 +376,7 @@ var WHATSAPP="5585997307346";
     l.querySelector('b').textContent=o.nome;l.querySelector('small').textContent=prazo;l.querySelector('.pr').textContent=brl(o.preco);
     l.querySelector('input').addEventListener('change',function(){frete=o;$('btn-pagar').disabled=false;msg('');calc()});
     box.appendChild(l)});
-   msg('Escolha uma forma de entrega.',true);calc();
+   var mi=0;opcoes.forEach(function(o,i){if(o.preco<opcoes[mi].preco)mi=i});var ins=box.querySelectorAll('input');if(ins[mi]){ins[mi].checked=true;frete=opcoes[mi];$('btn-pagar').disabled=false;msg('Entrega mais barata já selecionada. Você pode trocar acima.',true)}calc();
   }).catch(function(e){msg(e.message)}).then(function(){btn.disabled=false;btn.textContent='Calcular frete'})
  });
  $('btn-pagar').addEventListener('click',function(){
@@ -390,7 +391,8 @@ var WHATSAPP="5585997307346";
  calc(true);
 })();
 </script>
-<script src="/track.js" defer>
+<script src="/track.js" defer></script>
+<script>
  (function(){var v=document.getElementById('vplacas'),b=document.getElementById('vtog');if(!v||!b)return;
   v.muted=true;v.defaultMuted=true;
   function lab(){var on=!v.paused&&!v.ended;b.textContent=on?'❚❚ Pausar':'▶ Tocar';b.setAttribute('aria-label',on?'Pausar vídeo':'Tocar vídeo')}

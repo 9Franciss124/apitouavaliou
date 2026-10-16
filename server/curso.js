@@ -16,7 +16,8 @@ async function criar(mpToken, site) {
       pending: site + '/curso-obrigado.html?ref=' + ref,
       failure: site + '/curso?pagamento=falhou#entrar'
     },
-    auto_return: 'approved'
+    auto_return: 'approved',
+    notification_url: site + '/api/webhook'
   };
   const r = await fetch(MP + '/checkout/preferences', {
     method: 'POST',

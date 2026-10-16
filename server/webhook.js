@@ -21,6 +21,27 @@ exports.handler = async (event) => {
     if (!r.ok) return json(200, { ok: false });
     const p = await r.json();
     console.log('pagamento', id, p.status, p.external_reference);
+    // Venda do curso: avisa o dono por e-mail (uma vez) e encerra; não mexe no painel de pedidos de placas.
+    if (String(p.external_reference || '').startsWith('CURSO-')) {
+      if (p.status === 'approved' && process.env.RESEND_API_KEY && process.env.NOTIFY_EMAIL) {
+        let primeira = true;
+        if (db.disponivel()) { try { primeira = (await db.cmd(['SET', 'curso:' + p.external_reference, '1', 'NX'])) === 'OK'; } catch (e) { console.error('webhook/curso db:', e.message); } }
+        if (primeira) {
+          const pg = p.payer || {};
+          const nome = [pg.first_name, pg.last_name].filter(Boolean).join(' ') || '(nome não informado)';
+          const linhas = ['Venda do curso aprovada!', '', 'Comprador: ' + nome, 'E-mail: ' + (pg.email || '(não informado)'), 'Valor: R$ ' + Number(p.transaction_amount || 0).toFixed(2).replace('.', ','), 'Código: ' + p.external_reference, '', 'Ele(a) já recebe o botão para entrar no grupo do WhatsApp na página de confirmação.'];
+          try {
+            const r3 = await fetch('https://api.resend.com/emails', {
+              method: 'POST',
+              headers: { Authorization: 'Bearer ' + process.env.RESEND_API_KEY, 'Content-Type': 'application/json' },
+              body: JSON.stringify({ from: process.env.NOTIFY_FROM || 'Apitou Avaliou <onboarding@resend.dev>', to: [process.env.NOTIFY_EMAIL], subject: 'Venda do curso: R$ ' + Number(p.transaction_amount || 0).toFixed(2).replace('.', ','), text: linhas.join('\n') })
+            });
+            if (!r3.ok) console.error('resend curso:', r3.status, (await r3.text()).slice(0, 200));
+          } catch (e) { console.error('resend curso:', e.message); }
+        }
+      }
+      return json(200, { ok: true });
+    }
     const m = p.metadata || {};
     const pedidoId = m.pedido || p.external_reference;
     // Atualiza o status no painel; "primeiraVez" evita e-mail repetido quando o MP avisa mais de uma vez.

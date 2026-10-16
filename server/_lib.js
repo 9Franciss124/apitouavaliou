@@ -1,6 +1,6 @@
 // Funções compartilhadas: preços, validação e cotação de frete (Melhor Envio).
-const PRECOS = { google: 19.99, gqa: 19.99, gqp: 19.99, iqr: 22.99, iqp: 22.99, instagram: 22.99, personalizada: 27.99 };
-const NOMES = { google: 'Placa NFC Google 10x15', gqa: 'Placa NFC Google azul com QR Code 10x10', gqp: 'Placa NFC Google preta com QR Code 10x10', iqr: 'Placa NFC Instagram branca com QR Code 10x10', iqp: 'Placa NFC Instagram preta com QR Code 10x10', instagram: 'Placa NFC Instagram 10x15', personalizada: 'Placa NFC Personalizada 10x15' };
+const PRECOS = { google: 19.99, gaz: 19.99, gqa: 19.99, gqp: 19.99, iqr: 22.99, iqp: 22.99, instagram: 22.99, personalizada: 27.99 };
+const NOMES = { google: 'Placa NFC Google preta 10x15', gaz: 'Placa NFC Google azul 10x15', gqa: 'Placa NFC Google azul com QR Code 10x10', gqp: 'Placa NFC Google preta com QR Code 10x10', iqr: 'Placa NFC Instagram branca com QR Code 10x10', iqp: 'Placa NFC Instagram preta com QR Code 10x10', instagram: 'Placa NFC Instagram 10x15', personalizada: 'Placa NFC Personalizada 10x15' };
 const MAX_POR_MODELO = 2000;
 
 const num = (v, d) => { const n = Number(v); return Number.isFinite(n) && n > 0 ? n : d; };
@@ -23,9 +23,9 @@ const centavos = (v) => Math.round(v * 100);
 // Tabela de preços por quantidade (soma de todas as placas do pedido, de qualquer modelo).
 // Preços fechados, terminando em ,00 / ,49 / ,99. Abaixo de 50 placas vale o preço base (PRECOS).
 const FAIXAS = [
-  { min: 150, p: { google: 16.99, gqa: 16.99, gqp: 16.99, iqr: 19.49, iqp: 19.49, instagram: 19.49, personalizada: 23.49 } },
-  { min: 100, p: { google: 17.49, gqa: 17.49, gqp: 17.49, iqr: 19.99, iqp: 19.99, instagram: 19.99, personalizada: 24.49 } },
-  { min: 50, p: { google: 17.99, gqa: 17.99, gqp: 17.99, iqr: 20.49, iqp: 20.49, instagram: 20.49, personalizada: 25.00 } }
+  { min: 150, p: { google: 16.99, gaz: 16.99, gqa: 16.99, gqp: 16.99, iqr: 19.49, iqp: 19.49, instagram: 19.49, personalizada: 23.49 } },
+  { min: 100, p: { google: 17.49, gaz: 17.49, gqa: 17.49, gqp: 17.49, iqr: 19.99, iqp: 19.99, instagram: 19.99, personalizada: 24.49 } },
+  { min: 50, p: { google: 17.99, gaz: 17.99, gqa: 17.99, gqp: 17.99, iqr: 20.49, iqp: 20.49, instagram: 20.49, personalizada: 25.00 } }
 ];
 const centavosUnit = (k, total) => {
   const f = FAIXAS.find((x) => total >= x.min);

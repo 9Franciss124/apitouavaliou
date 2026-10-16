@@ -220,7 +220,7 @@ footer a{color:inherit;text-underline-offset:3px}
     <li>Grupo de revendedores</li>
    </ul>
    <a class="btn lg yel" id="comprar" href="#entrar">Quero entrar no curso</a>
-   <p class="fine">Depois do pagamento, envie o comprovante no WhatsApp para entrar no grupo. O curso não inclui as placas físicas.</p>
+   <p class="fine">Depois de pagar, você volta para esta página e entra no grupo do WhatsApp. O curso não inclui as placas físicas.</p>
   </div>
  </div>
 </div>
@@ -231,7 +231,7 @@ footer a{color:inherit;text-underline-offset:3px}
  <details><summary>As placas estão incluídas no curso?</summary><p>Não. O curso ensina o método. As placas são compradas à parte, em qualquer quantidade, e você vê no módulo 2 como calcular sua margem. Se quiser, a Apitou Avaliou vende placas com preço por quantidade.</p></details>
  <details><summary>Preciso entender de tecnologia para programar o chip?</summary><p>Não. Você aprende a gravar o link no chip NFC com um aplicativo gratuito no celular, passo a passo.</p></details>
  <details><summary>A simulação do site é uma promessa de ganho?</summary><p>Não. Ela é só uma conta com valores que você mesmo preenche. O resultado depende do seu preço, do seu esforço e de quantas placas você vender.</p></details>
- <details><summary>Como recebo o acesso depois de pagar?</summary><p>O conteúdo é passado dentro de um grupo de WhatsApp. Depois do pagamento, você envia o comprovante para a gente e é adicionado ao grupo.</p></details>
+ <details><summary>Como recebo o acesso depois de pagar?</summary><p>O conteúdo é passado dentro de um grupo de WhatsApp. Assim que o pagamento é confirmado, o site mostra um botão para você entrar no grupo. Se algo falhar, é só enviar o comprovante no WhatsApp.</p></details>
 </div></section>
 </main>
 
@@ -244,14 +244,21 @@ footer a{color:inherit;text-underline-offset:3px}
 var CURSO={
  preco:'R$ 14,99',            // valor exibido
  sufixo:' à vista',        // texto depois do valor
- linkCompra:'',            // link de pagamento (Mercado Pago, Hotmart, etc.). Vazio = abre o WhatsApp
+ linkCompra:'https://mpago.la/2v4JCXg', // link de reserva, usado só se o pagamento automático falhar            // link de pagamento (Mercado Pago, Hotmart, etc.). Vazio = abre o WhatsApp
  whatsapp:'5585997307346',
  msg:'Olá! Quero entrar no grupo do curso de revenda de placas NFC.'
 };
 (function(){
  var $=function(i){return document.getElementById(i)};
  var link=CURSO.linkCompra||('https://wa.me/'+CURSO.whatsapp+'?text='+encodeURIComponent(CURSO.msg));
- ['comprar','stk-b'].forEach(function(i){var a=$(i);a.href=link;if(/^http/.test(link)){a.target='_blank';a.rel='noopener'}});
+ ['comprar','stk-b'].forEach(function(i){var a=$(i);a.href=link;
+  a.addEventListener('click',function(ev){
+   ev.preventDefault();var t=a.textContent;a.textContent='Abrindo pagamento…';
+   fetch('/api/curso',{method:'POST'}).then(function(r){return r.json()}).then(function(d){
+    if(d&&d.url){location.href=d.url}else{location.href=link}
+   }).catch(function(){location.href=link});
+   setTimeout(function(){a.textContent=t},8000);
+  })});
  $('preco').innerHTML=CURSO.preco+'<small>'+CURSO.sufixo+'</small>';$('stk-p').textContent=CURSO.preco+CURSO.sufixo;
  /* simulador: custo pela tabela de preço por quantidade (placa Google 10x15) */
  function custo(n){return n>=150?16.99:n>=100?17.49:n>=50?17.99:19.99}

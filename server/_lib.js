@@ -1,6 +1,6 @@
 // Funções compartilhadas: preços, validação e cotação de frete (Melhor Envio).
-const PRECOS = { google: 19.99, instagram: 22.99, personalizada: 27.99 };
-const NOMES = { google: 'Placa NFC Google 10x15', instagram: 'Placa NFC Instagram 10x15', personalizada: 'Placa NFC Personalizada 10x15' };
+const PRECOS = { google: 19.99, googleqr: 19.99, instagram: 22.99, personalizada: 27.99 };
+const NOMES = { google: 'Placa NFC Google 10x15', googleqr: 'Placa NFC Google com QR Code 10x10', instagram: 'Placa NFC Instagram 10x15', personalizada: 'Placa NFC Personalizada 10x15' };
 const MAX_POR_MODELO = 2000;
 
 const num = (v, d) => { const n = Number(v); return Number.isFinite(n) && n > 0 ? n : d; };
@@ -23,9 +23,9 @@ const centavos = (v) => Math.round(v * 100);
 // Tabela de preços por quantidade (soma de todas as placas do pedido, de qualquer modelo).
 // Preços fechados, terminando em ,00 / ,49 / ,99. Abaixo de 50 placas vale o preço base (PRECOS).
 const FAIXAS = [
-  { min: 150, p: { google: 16.99, instagram: 19.49, personalizada: 23.49 } },
-  { min: 100, p: { google: 17.49, instagram: 19.99, personalizada: 24.49 } },
-  { min: 50, p: { google: 17.99, instagram: 20.49, personalizada: 25.00 } }
+  { min: 150, p: { google: 16.99, googleqr: 16.99, instagram: 19.49, personalizada: 23.49 } },
+  { min: 100, p: { google: 17.49, googleqr: 17.49, instagram: 19.99, personalizada: 24.49 } },
+  { min: 50, p: { google: 17.99, googleqr: 17.99, instagram: 20.49, personalizada: 25.00 } }
 ];
 const centavosUnit = (k, total) => {
   const f = FAIXAS.find((x) => total >= x.min);

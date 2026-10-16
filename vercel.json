@@ -1,3 +1,4 @@
 {
-  "outputDirectory": "public"
+  "outputDirectory": "public",
+  "rewrites": [{ "source": "/curso", "destination": "/curso.html" }]
 }

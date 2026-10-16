@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Curso Revenda de Placas NFC | Apitou Avaliou</title>
+<meta name="description" content="Aprenda a revender placas NFC de avaliação do Google e do Instagram para os comércios da sua cidade, com o passo a passo de quem vende todo dia.">
+<link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml"><link rel="icon" href="/favicon.ico?v=2" sizes="48x48"><link rel="icon" href="/favicon-32.png?v=2" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
+<meta name="theme-color" content="#ffffff">
+<meta property="og:title" content="Curso Revenda de Placas NFC | Apitou Avaliou"><meta property="og:description" content="Aprenda a revender placas NFC de avaliação para os comércios da sua cidade."><meta property="og:image" content="https://apitouavaliou.com.br/placa-qr-4.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap">
+<style>
+[hidden]{display:none!important}
+:root{color-scheme:light;--bg:#fff;--fg:#1b2230;--mut:#5b6678;--line:#e4e8ef;--blue:#2b7de9;--blue-d:#1d5fd1;--navy:#4f9bf5;--sky:#a9cdfa;--yel:#f6c445;--soft:#f4f7fc;--fd:'Poppins',system-ui,sans-serif;--fb:'Figtree',system-ui,sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--fb);font-size:17px;line-height:1.55}
+img{max-width:100%}
+.wrap{max-width:1080px;margin-inline:auto;padding-inline:20px}
+h1,h2,h3{font-family:var(--fd);line-height:1.1;margin:0;text-wrap:balance;letter-spacing:-.02em}
+h1{font-size:clamp(2.1rem,5.6vw,3.5rem);font-weight:800}
+h2{font-size:clamp(1.7rem,4vw,2.4rem);font-weight:700}
+h3{font-size:1.15rem;font-weight:700}
+p{margin:0}a{color:inherit}
+header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:10px}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--fd);font-weight:800;text-decoration:none;font-size:1.05rem;line-height:1}
+.brand .ico{flex:none;color:var(--blue)}.brand b{color:var(--blue)}
+nav{display:flex;gap:22px;align-items:center}
+nav a{text-decoration:none;color:var(--mut);font-weight:500;font-size:.95rem}nav a:hover{color:var(--fg)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--fd);font-weight:600;font-size:.95rem;padding:13px 22px;border-radius:999px;text-decoration:none;border:2px solid var(--blue);background:var(--blue);color:#fff;cursor:pointer}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--blue)}
+.btn.sm{padding:9px 16px;font-size:.88rem}
+.btn.lg{padding:16px 28px;font-size:1.02rem}
+.btn.yel{background:var(--yel);border-color:var(--yel);color:#111318}
+a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{outline:3px solid var(--yel);outline-offset:3px}
+.eyebrow{font-family:var(--fd);font-weight:600;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:14px}
+.stripe{position:absolute;pointer-events:none}
+.stripe.tl{top:0;left:0;width:88px;height:88px;background:linear-gradient(135deg,var(--navy) 0 45%,var(--blue) 45% 78%,transparent 78%)}
+.stripe.br{bottom:0;right:0;width:88px;height:88px;background:linear-gradient(315deg,var(--yel) 0 24%,var(--sky) 24% 58%,transparent 58%)}
+.hero{position:relative;overflow:hidden;padding-block:84px 72px}
+.hero .wrap{position:relative;display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center}
+.lead{font-size:1.15rem;color:var(--mut);margin-top:18px;max-width:46ch}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.points{display:flex;flex-wrap:wrap;gap:10px 22px;margin:26px 0 0;padding:0;list-style:none;color:var(--mut);font-size:.95rem}
+.points li:before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--yel);margin-right:8px}
+.shot{background:#fff;border-radius:22px;border:1px solid var(--line);padding:10px;box-shadow:0 18px 40px -22px rgba(17,19,24,.35);position:relative}
+.shot img{display:block;width:100%;height:auto;border-radius:14px}
+.shot .tag{position:absolute;left:14px;bottom:-14px;background:var(--yel);color:#111318;font:700 .8rem var(--fd);padding:8px 14px;border-radius:99px;box-shadow:0 8px 18px -8px rgba(0,0,0,.35)}
+section{padding-block:64px}
+.alt{background:var(--soft);border-block:1px solid var(--line)}
+.head{max-width:62ch;margin-bottom:34px}.head p{color:var(--mut);margin-top:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px;min-width:0}
+.card p{color:var(--mut);font-size:.98rem;margin-top:8px}
+.ic{width:46px;height:46px;border-radius:14px;background:#eaf2fe;color:var(--blue);display:grid;place-items:center;margin-bottom:14px}
+.ic svg{width:24px;height:24px}
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.how .s{border-top:4px solid var(--blue);padding-top:16px}.how .s:nth-child(2){border-color:var(--yel)}.how .s:nth-child(3){border-color:var(--navy)}
+.how b{font-family:var(--fd);font-size:1.1rem;display:block;margin-bottom:6px}.how p{color:var(--mut)}
+.mods{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.mod{display:flex;gap:16px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px}
+.mod .n{flex:none;width:42px;height:42px;border-radius:50%;background:var(--blue);color:#fff;font:700 .95rem var(--fd);display:grid;place-items:center}
+.mod:nth-child(3n+2) .n{background:var(--yel);color:#111318}.mod:nth-child(3n) .n{background:var(--navy)}
+.mod p{color:var(--mut);font-size:.96rem;margin-top:4px}
+.bonus{margin-top:22px;background:var(--blue);color:#fff;border-radius:22px;padding:26px 28px;display:grid;grid-template-columns:auto 1fr;gap:6px 22px;align-items:center}
+.bonus .tg{font:700 .78rem var(--fd);letter-spacing:.1em;text-transform:uppercase;background:var(--yel);color:#111318;padding:6px 12px;border-radius:99px;justify-self:start}
+.bonus ul{grid-column:1/-1;list-style:none;margin:8px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.bonus li{background:rgba(255,255,255,.13);border-radius:14px;padding:14px 16px;font-size:.95rem}.bonus li b{display:block;font-family:var(--fd);margin-bottom:2px}
+.who{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.who .card.y{border-color:#cfe0fb;background:#f4f8ff}
+.who ul{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:10px}
+.who li{padding-left:28px;position:relative;color:var(--fg)}
+.who .y li:before{content:"";position:absolute;left:0;top:5px;width:17px;height:17px;border-radius:50%;background:var(--blue)}
+.who .y li:after{content:"";position:absolute;left:6px;top:8px;width:4px;height:8px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.who .n li{color:var(--mut)}.who .n li:before{content:"×";position:absolute;left:3px;top:-1px;color:#9aa5b8;font-weight:700;font-size:1.1rem}
+.sim{display:grid;grid-template-columns:1.1fr 1fr;gap:26px;align-items:stretch}
+.sim .box{background:#fff;border:1px solid var(--line);border-radius:22px;padding:26px}
+.sim label{display:block;font:600 .9rem var(--fd);margin-top:14px}.sim label:first-child{margin-top:0}
+.sim input{width:100%;margin-top:6px;padding:13px 14px;font:500 1rem var(--fb);border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--fg)}
+.sim small{display:block;color:var(--mut);margin-top:6px;font-size:.84rem}
+.res{background:var(--blue);color:#fff;border-radius:22px;padding:26px;display:flex;flex-direction:column;gap:14px;justify-content:center}
+.res .row{display:flex;justify-content:space-between;gap:12px;font-size:.98rem;opacity:.95}
+.res .big{font-family:var(--fd);font-weight:800;font-size:clamp(2rem,6vw,2.8rem);letter-spacing:-.03em;color:var(--yel);line-height:1}
+.res hr{border:0;border-top:1px solid rgba(255,255,255,.3);width:100%;margin:2px 0}
+.res .note{font-size:.82rem;opacity:.85}
+.offer{position:relative;overflow:hidden;background:var(--blue);color:#fff;padding-block:72px}
+.offer .wrap{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center;position:relative}
+.offer .lead{color:#e6f0ff}
+.offer .eyebrow{color:var(--yel)}
+.buy{background:#fff;color:var(--fg);border-radius:24px;padding:30px;box-shadow:0 24px 50px -24px rgba(0,0,0,.5)}
+.buy .pr{font-family:var(--fd);font-weight:800;font-size:clamp(2.4rem,6vw,3.3rem);letter-spacing:-.03em;color:var(--blue)}
+.buy .pr small{font:500 .95rem var(--fb);color:var(--mut);letter-spacing:0}
+.ticks{list-style:none;padding:0;margin:18px 0 22px;display:grid;gap:10px}
+.ticks li{padding-left:30px;position:relative}
+.ticks li:before{content:"";position:absolute;left:0;top:4px;width:18px;height:18px;border-radius:50%;background:var(--blue)}
+.ticks li:after{content:"";position:absolute;left:6px;top:8px;width:4px;height:8px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.buy .btn{width:100%}
+.buy .fine{font-size:.84rem;color:var(--mut);margin-top:12px;text-align:center}
+details{background:#fff;border:1px solid var(--line);border-radius:16px;padding:0 20px}
+details+details{margin-top:12px}
+summary{cursor:pointer;list-style:none;padding:18px 0;font:600 1rem var(--fd);display:flex;justify-content:space-between;gap:14px;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary:after{content:"+";font-size:1.4rem;color:var(--blue);line-height:1}details[open] summary:after{content:"−"}
+details p{color:var(--mut);padding-bottom:18px}
+footer{border-top:1px solid var(--line);padding-block:28px;font-size:.92rem;color:var(--mut)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+footer a{color:inherit;text-underline-offset:3px}
+.stk{position:fixed;left:0;right:0;bottom:0;z-index:20;display:none;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));background:#fff;border-top:1px solid var(--line);box-shadow:0 -10px 24px -16px rgba(17,19,24,.4)}
+.stk b{font:700 .95rem var(--fd);line-height:1.15}.stk small{display:block;color:var(--mut);font-weight:500;font-family:var(--fb);font-size:.78rem}
+@media (max-width:860px){
+ nav a:not(.btn){display:none}
+ .hero{padding-block:84px 52px}.stripe.tl{width:60px;height:60px}.hero .wrap,.offer .wrap,.sim,.who,.mods{grid-template-columns:1fr}
+ .grid3,.how{grid-template-columns:1fr}.bonus ul{grid-template-columns:1fr}.bonus{grid-template-columns:1fr}
+ section{padding-block:48px}
+ .stk{display:flex}.stk.off{display:none}body{padding-bottom:70px}
+}
+</style></head>
+<body>
+<header><div class="wrap bar">
+ <a class="brand" href="#topo"><svg class="ico" viewBox="0 0 48 48" width="40" height="40" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><rect x="8" y="5" width="20" height="38" rx="5"/><path d="M15 9.5h6"/><path d="M33 17c2.6 4.2 2.6 9.8 0 14M38.5 12.5c4.6 6.8 4.6 16.2 0 23"/></svg><span>Apitou <b>Avaliou</b></span></a>
+ <nav><a href="#aprenda">O que você aprende</a><a href="#simulador">Simulador</a><a href="#duvidas">Dúvidas</a><a class="btn sm" href="#entrar">Quero entrar</a></nav>
+</div></header>
+
+<main id="topo">
+<div class="hero"><i class="stripe tl"></i><i class="stripe br"></i>
+ <div class="wrap">
+  <div>
+   <p class="eyebrow">Curso de revenda de placas NFC</p>
+   <h1>Aprenda a vender placas NFC para os comércios da sua cidade.</h1>
+   <p class="lead">O passo a passo de quem vende placa de avaliação todos os dias: como funciona o produto, quanto custa, como programar, como abordar o dono do negócio e como entregar.</p>
+   <div class="cta"><a class="btn lg" href="#entrar">Quero entrar no curso</a><a class="btn lg ghost" href="#aprenda">Ver o que você aprende</a></div>
+   <ul class="points"><li>Do zero, sem experiência</li><li>Scripts e planilha prontos</li><li>Feito pela Apitou Avaliou</li></ul>
+  </div>
+  <div class="shot"><img alt="Placas NFC quadradas do Google e do Instagram, com NFC e QR Code" src="placa-qr-4.jpg" width="900" height="640"><span class="tag">Produto que você vai revender</span></div>
+ </div>
+</div>
+
+<section class="alt" id="produto"><div class="wrap">
+ <div class="head"><p class="eyebrow">O produto</p><h2>Uma placa simples que todo comércio entende.</h2><p>O cliente encosta o celular na placa, ou lê o QR Code, e a página de avaliação do Google abre na hora. Para o dono do negócio, é mais avaliação com menos esforço.</p></div>
+ <div class="how">
+  <div class="s"><b>1. O cliente aproxima o celular</b><p>A placa tem um chip NFC e também um QR Code, então funciona em qualquer celular.</p></div>
+  <div class="s"><b>2. A avaliação abre sozinha</b><p>Sem digitar nada e sem instalar aplicativo. O link é o do negócio, programado por você.</p></div>
+  <div class="s"><b>3. O negócio ganha reputação</b><p>Mais avaliações no Google ajudam o comércio a ser encontrado e a passar confiança.</p></div>
+ </div>
+</div></section>
+
+<section id="aprenda"><div class="wrap">
+ <div class="head"><p class="eyebrow">O que você aprende</p><h2>Do primeiro contato até a placa funcionando.</h2><p>Seis módulos curtos, na ordem em que você vai precisar deles.</p></div>
+ <div class="mods">
+  <div class="mod"><span class="n">01</span><div><h3>Entenda o produto</h3><p>O que é a placa NFC, a diferença entre NFC e QR Code, e como explicar isso em uma frase.</p></div></div>
+  <div class="mod"><span class="n">02</span><div><h3>Escolha e compre as placas</h3><p>Modelos, tamanhos e cores, tabela de preço por quantidade e como calcular sua margem.</p></div></div>
+  <div class="mod"><span class="n">03</span><div><h3>Programe o chip NFC</h3><p>Como gravar o link de avaliação do cliente, testar no celular e trocar o link depois.</p></div></div>
+  <div class="mod"><span class="n">04</span><div><h3>Encontre comércios</h3><p>Quais negócios têm mais interesse, como escolher bairros e como achar o dono, não só o atendente.</p></div></div>
+  <div class="mod"><span class="n">05</span><div><h3>Converse e feche</h3><p>Scripts de mensagem e de visita, como responder as dúvidas mais comuns e como pedir o fechamento.</p></div></div>
+  <div class="mod"><span class="n">06</span><div><h3>Entregue e fidelize</h3><p>Como entregar, deixar o cliente satisfeito e vender de novo para quem já comprou.</p></div></div>
+ </div>
+ <div class="bonus">
+  <span class="tg">Bônus incluídos</span><b style="font:700 1.15rem var(--fd)">Material pronto para você começar hoje.</b>
+  <ul>
+   <li><b>Planilha de prospecção</b>Para organizar contatos, status e retorno de cada comércio.</li>
+   <li><b>Modelos de mensagem</b>Primeiro contato, conversa com o dono e retorno.</li>
+   <li><b>Grupo de revendedores</b>Para tirar dúvidas e trocar experiência.</li>
+  </ul>
+ </div>
+</div></section>
+
+<section class="alt" id="simulador"><div class="wrap">
+ <div class="head"><p class="eyebrow">Simule o cenário</p><h2>Veja a conta da revenda antes de começar.</h2><p>Preencha com o preço que você pretende cobrar. O custo usa a tabela de preço por quantidade da Apitou Avaliou (placa Google).</p></div>
+ <div class="sim">
+  <div class="box">
+   <label for="s-q">Quantidade de placas</label>
+   <input id="s-q" type="number" min="0" max="2000" inputmode="numeric" value="20">
+   <label for="s-c">Custo por placa (R$)</label>
+   <input id="s-c" inputmode="decimal" readonly aria-describedby="s-cd">
+   <small id="s-cd">Preenchido automaticamente pela quantidade.</small>
+   <label for="s-v">Preço de venda por placa (R$)</label>
+   <input id="s-v" inputmode="decimal" placeholder="Ex.: 59,90">
+   <small>Você decide quanto cobrar de cada comércio.</small>
+  </div>
+  <div class="res" aria-live="polite">
+   <div class="row"><span>Investimento nas placas</span><b id="r-inv">R$ 0,00</b></div>
+   <div class="row"><span>Faturamento estimado</span><b id="r-fat">R$ 0,00</b></div>
+   <hr>
+   <div class="row"><span>Lucro bruto estimado</span></div>
+   <div class="big" id="r-luc">R$ 0,00</div>
+   <p class="note">Simulação com valores editáveis, sem frete, taxas ou impostos. Não é promessa de resultado: o que você ganha depende de quantas placas conseguir vender.</p>
+  </div>
+ </div>
+</div></section>
+
+<section><div class="wrap">
+ <div class="head"><p class="eyebrow">Para quem é</p><h2>Feito para quem quer começar pequeno.</h2></div>
+ <div class="who">
+  <div class="card y"><h3>É para você se…</h3><ul>
+   <li>quer uma renda extra vendendo para comércios locais;</li>
+   <li>já vende ou presta serviço para lojistas e quer um produto novo;</li>
+   <li>prefere um passo a passo pronto a tentar tudo sozinho;</li>
+   <li>topa conversar com donos de negócio, por mensagem ou pessoalmente.</li></ul></div>
+  <div class="card n"><h3>Não é para você se…</h3><ul>
+   <li>procura dinheiro fácil, sem precisar conversar com ninguém;</li>
+   <li>espera resultado garantido sem aplicar o método;</li>
+   <li>não quer acompanhar e entregar o que vendeu.</li></ul></div>
+ </div>
+</div></section>
+
+<div class="offer" id="entrar"><i class="stripe tl" style="opacity:.35"></i><i class="stripe br"></i>
+ <div class="wrap">
+  <div>
+   <p class="eyebrow">Acesso ao curso</p>
+   <h2>Comece a revender com o passo a passo na mão.</h2>
+   <p class="lead">Quem ensina é a Apitou Avaliou, que vende placas NFC para comércios e para revendedores. O que está no curso é o que a gente usa na prática.</p>
+  </div>
+  <div class="buy">
+   <p class="eyebrow" style="margin-bottom:6px">Curso completo</p>
+   <div class="pr" id="preco">R$ 97<small> à vista</small></div>
+   <ul class="ticks">
+    <li>6 módulos, do produto à entrega</li>
+    <li>Planilha de prospecção</li>
+    <li>Modelos de mensagem e scripts</li>
+    <li>Grupo de revendedores</li>
+   </ul>
+   <a class="btn lg yel" id="comprar" href="#entrar">Quero entrar no curso</a>
+   <p class="fine">O curso não inclui as placas físicas.</p>
+  </div>
+ </div>
+</div>
+
+<section id="duvidas"><div class="wrap" style="max-width:820px">
+ <div class="head"><p class="eyebrow">Dúvidas frequentes</p><h2>O que você precisa saber antes de entrar.</h2></div>
+ <details><summary>Preciso ter experiência com vendas?</summary><p>Não. O curso começa pelo básico: entender o produto, saber o preço e ter uma conversa simples para apresentar a placa.</p></details>
+ <details><summary>As placas estão incluídas no curso?</summary><p>Não. O curso ensina o método. As placas são compradas à parte, em qualquer quantidade, e você vê no módulo 2 como calcular sua margem. Se quiser, a Apitou Avaliou vende placas com preço por quantidade.</p></details>
+ <details><summary>Preciso entender de tecnologia para programar o chip?</summary><p>Não. Você aprende a gravar o link no chip NFC com um aplicativo gratuito no celular, passo a passo.</p></details>
+ <details><summary>A simulação do site é uma promessa de ganho?</summary><p>Não. Ela é só uma conta com valores que você mesmo preenche. O resultado depende do seu preço, do seu esforço e de quantas placas você vender.</p></details>
+ <details><summary>Como recebo o acesso depois de comprar?</summary><p>Depois da confirmação do pagamento, o acesso é enviado para você. Qualquer dúvida, é só chamar a gente no WhatsApp.</p></details>
+</div></section>
+</main>
+
+<footer><div class="wrap"><span><b>Apitou Avaliou</b> · Placas NFC</span><span><a href="/">Ver as placas</a> · <a href="/politica.html">Política</a> · <a href="https://instagram.com/apitouavaliou" target="_blank" rel="noopener">@apitouavaliou</a></span></div></footer>
+
+<div class="stk" id="stk"><div><b>Curso de revenda NFC</b><small id="stk-p">R$ 97 à vista</small></div><a class="btn sm" id="stk-b" href="#entrar">Quero entrar</a></div>
+
+<script>
+/* CONFIGURAÇÃO DO CURSO — edite aqui */
+var CURSO={
+ preco:'R$ 97',            // valor exibido
+ sufixo:' à vista',        // texto depois do valor
+ linkCompra:'',            // link de pagamento (Mercado Pago, Hotmart, etc.). Vazio = abre o WhatsApp
+ whatsapp:'5585997307346',
+ msg:'Olá! Quero entrar no curso de revenda de placas NFC.'
+};
+(function(){
+ var $=function(i){return document.getElementById(i)};
+ var link=CURSO.linkCompra||('https://wa.me/'+CURSO.whatsapp+'?text='+encodeURIComponent(CURSO.msg));
+ ['comprar','stk-b'].forEach(function(i){var a=$(i);a.href=link;if(/^http/.test(link)){a.target='_blank';a.rel='noopener'}});
+ $('preco').innerHTML=CURSO.preco+'<small>'+CURSO.sufixo+'</small>';$('stk-p').textContent=CURSO.preco+CURSO.sufixo;
+ /* simulador: custo pela tabela de preço por quantidade (placa Google 10x15) */
+ function custo(n){return n>=150?16.99:n>=100?17.49:n>=50?17.99:19.99}
+ function num(v){v=String(v||'').replace(/\./g,'').replace(',','.');var x=parseFloat(v);return isFinite(x)&&x>0?x:0}
+ function brl(v){return 'R$ '+v.toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.')}
+ function calc(){
+  var q=Math.max(0,Math.min(2000,parseInt($('s-q').value,10)||0)),c=custo(q),v=num($('s-v').value);
+  $('s-c').value=q?c.toFixed(2).replace('.',','):'';
+  var inv=q*c,fat=q*v;
+  $('r-inv').textContent=brl(inv);$('r-fat').textContent=brl(fat);
+  $('r-luc').textContent=v?brl(fat-inv):'R$ 0,00';
+ }
+ $('s-q').addEventListener('input',calc);$('s-v').addEventListener('input',calc);calc();
+ /* barra fixa no celular: some perto da oferta */
+ var st=$('stk'),of=$('entrar');
+ if('IntersectionObserver' in window){new IntersectionObserver(function(e){st.classList.toggle('off',e[0].isIntersecting)},{threshold:.15}).observe(of)}
+})();
+</script>
+</body></html>

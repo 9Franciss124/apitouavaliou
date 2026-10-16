@@ -213,7 +213,7 @@ try{token=sessionStorage.getItem(TK)}catch(e){}
 var $=function(i){return document.getElementById(i)};
 var brl=function(n){return (n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})};
 var esc=function(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
-var NOMES={google:'Google preta 10x15',gaz:'Google azul 10x15',gbr:'Google branca 10x15',gqa:'Google azul 10x10',gqp:'Google preta 10x10',iqr:'Instagram branca 10x10',iqp:'Instagram preta 10x10',instagram:'Instagram',personalizada:'Personalizada'};
+var NOMES={google:'Google preta 10x15',gaz:'Google azul 10x15',gbr:'Google branca 10x15',gqa:'Google branca 10x10',gqp:'Google preta 10x10',iqr:'Instagram branca 10x10',iqp:'Instagram preta 10x10',instagram:'Instagram',personalizada:'Personalizada'};
 
 function api(body){
   return fetch('/api/painel',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+(token||'')},body:JSON.stringify(body)})

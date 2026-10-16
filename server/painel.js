@@ -52,7 +52,7 @@ async function dados(n) {
   const pedidos = brutos.filter(Boolean).map((x) => { try { return JSON.parse(x); } catch (e) { return null; } }).filter(Boolean);
   const mapaDia = {}; porDia.forEach((d) => { mapaDia[d.dia] = d; });
   const inicio = dias[0];
-  const modelos = { google: 0, gaz: 0, gqa: 0, gqp: 0, iqr: 0, iqp: 0, instagram: 0, personalizada: 0 };
+  const modelos = { google: 0, gaz: 0, gbr: 0, gqa: 0, gqp: 0, iqr: 0, iqp: 0, instagram: 0, personalizada: 0 };
   let fat = 0, prod = 0, frete = 0, pagos = 0, criados = 0, enviados = 0, aEnviar = 0;
   for (const p of pedidos) {
     const dCria = db.dia(p.criado);

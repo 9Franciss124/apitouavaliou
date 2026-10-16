@@ -60,7 +60,7 @@ exports.handler = async (event) => {
           'Pedido ' + pedidoId,
           'Cliente: ' + m.nome, 'WhatsApp: ' + m.whatsapp, 'E-mail: ' + m.email,
           'Entrega: ' + m.endereco + ' (CEP ' + m.cep + ')',
-          'Google: ' + (it.google || 0) + ' | Google QR 10x10: ' + (it.googleqr || 0) + ' | Instagram: ' + (it.instagram || 0) + ' | Personalizada: ' + (it.personalizada || 0),
+          'Google: ' + (it.google || 0) + ' | Google azul 10x10: ' + (it.gqa || 0) + ' | Google preta 10x10: ' + (it.gqp || 0) + ' | Insta rosa 10x10: ' + (it.iqr || 0) + ' | Insta preta 10x10: ' + (it.iqp || 0) + ' | Instagram: ' + (it.instagram || 0) + ' | Personalizada: ' + (it.personalizada || 0),
           'Frete: ' + m.frete_servico + ' - R$ ' + m.frete_valor,
           'Produtos: R$ ' + m.produtos_valor, 'Total pago: R$ ' + p.transaction_amount
         ];
@@ -70,7 +70,7 @@ exports.handler = async (event) => {
       if (m.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m.email) && from.indexOf('resend.dev') === -1) {
         const h = (x) => String(x == null ? '' : x).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
         const brl = (n) => Number(n || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-        const nomes = { google: 'Placa NFC Google', googleqr: 'Placa NFC Google com QR Code', instagram: 'Placa NFC Instagram', personalizada: 'Placa NFC Personalizada' };
+        const nomes = { google: 'Placa NFC Google', gqa: 'Placa NFC Google azul com QR Code', gqp: 'Placa NFC Google preta com QR Code', iqr: 'Placa NFC Instagram rosa com QR Code', iqp: 'Placa NFC Instagram preta com QR Code', instagram: 'Placa NFC Instagram', personalizada: 'Placa NFC Personalizada' };
         const itens = Object.keys(nomes).filter((k) => it[k] > 0).map((k) => it[k] + '× ' + nomes[k]);
         const primeiro = String(m.nome || '').split(' ')[0] || 'tudo bem';
         const texto = [

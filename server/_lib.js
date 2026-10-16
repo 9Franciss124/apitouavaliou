@@ -1,6 +1,6 @@
 // Funções compartilhadas: preços, validação e cotação de frete (Melhor Envio).
 const PRECOS = { google: 19.99, gqa: 19.99, gqp: 19.99, iqr: 22.99, iqp: 22.99, instagram: 22.99, personalizada: 27.99 };
-const NOMES = { google: 'Placa NFC Google 10x15', gqa: 'Placa NFC Google azul com QR Code 10x10', gqp: 'Placa NFC Google preta com QR Code 10x10', iqr: 'Placa NFC Instagram rosa com QR Code 10x10', iqp: 'Placa NFC Instagram preta com QR Code 10x10', instagram: 'Placa NFC Instagram 10x15', personalizada: 'Placa NFC Personalizada 10x15' };
+const NOMES = { google: 'Placa NFC Google 10x15', gqa: 'Placa NFC Google azul com QR Code 10x10', gqp: 'Placa NFC Google preta com QR Code 10x10', iqr: 'Placa NFC Instagram branca com QR Code 10x10', iqp: 'Placa NFC Instagram preta com QR Code 10x10', instagram: 'Placa NFC Instagram 10x15', personalizada: 'Placa NFC Personalizada 10x15' };
 const MAX_POR_MODELO = 2000;
 
 const num = (v, d) => { const n = Number(v); return Number.isFinite(n) && n > 0 ? n : d; };

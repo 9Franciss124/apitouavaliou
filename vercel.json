@@ -1,4 +1,7 @@
 {
   "outputDirectory": "public",
-  "rewrites": [{ "source": "/curso", "destination": "/curso.html" }]
+  "rewrites": [
+    { "source": "/curso", "destination": "/curso.html" },
+    { "source": "/cardapio/villazza", "destination": "/cardapio-villazza.html" }
+  ]
 }

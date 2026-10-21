@@ -1,7 +1,17 @@
 {
   "outputDirectory": "public",
   "rewrites": [
-    { "source": "/curso", "destination": "/curso.html" },
-    { "source": "/cardapio/villazza", "destination": "/cardapio-villazza.html" }
+    {
+      "source": "/curso",
+      "destination": "/curso.html"
+    },
+    {
+      "source": "/cardapio/villazza",
+      "destination": "/cardapio-villazza.html"
+    },
+    {
+      "source": "/barbearia-exemplo",
+      "destination": "/barbearia-tradicional.html"
+    }
   ]
 }

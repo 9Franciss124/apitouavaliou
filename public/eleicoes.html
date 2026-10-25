@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Balão na Estrela</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Nunito:wght@600;800&display=swap">
+<style>
+/* Layout: barraca de quermesse; placar em cima, palco do jogo ocupando a tela, loja de balões sobreposta quando acabam */
+:root{
+  --lona:#0f2a4a; --lona2:#163c66; --agua:#3ec6ff; --agua2:#bff0ff; --estrela:#d7262e; --creme:#fff6dc; --ouro:#ffc93c; --verde:#2ecc71;
+  --display:"Bowlby One", Impact, sans-serif; --body:"Nunito", system-ui, sans-serif;
+  color-scheme:dark;
+}
+html,body{height:100%}
+body{margin:0}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--lona);color:var(--creme);font-family:var(--body);overflow:hidden;touch-action:manipulation}
+.app{height:100%;display:flex;flex-direction:column;gap:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(22px,5vw,34px);margin:0;line-height:1}
+h1 span{color:var(--agua)}
+.marca{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.tag{font-family:var(--display);font-size:clamp(16px,3.5vw,22px);color:var(--ouro);transform:rotate(-4deg)}
+.caixa .tag{color:var(--estrela);font-size:24px;transform:none}
+.placar{display:flex;gap:8px;flex-wrap:wrap}
+.chip{background:var(--lona2);border:2px solid rgba(255,246,220,.15);border-radius:12px;padding:6px 12px;text-align:center;min-width:72px}
+.chip b{display:block;font-family:var(--display);font-weight:400;font-size:24px;font-variant-numeric:tabular-nums;color:var(--ouro);line-height:1.1}
+.chip.balao b{color:var(--agua)}
+.chip.pouco{border-color:var(--estrela)}
+.chip small{font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.75}
+.vida{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.barra{flex:1;height:12px;border-radius:6px;background:var(--lona2);overflow:hidden;box-shadow:inset 0 0 0 2px rgba(255,246,220,.12)}
+.barra i{display:block;height:100%;width:100%;background:var(--estrela);transition:width .3s}
+.palco{flex:1;min-height:0;position:relative;border-radius:18px;overflow:hidden;background:repeating-linear-gradient(90deg,#1b4a7a 0 48px,#174070 48px 96px);box-shadow:inset 0 0 0 3px rgba(255,246,220,.12)}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:crosshair}
+.modal{position:absolute;inset:0;display:grid;place-items:center;background:rgba(9,24,43,.82);padding:16px}
+.caixa{background:var(--creme);color:var(--lona);border-radius:20px;padding:22px;max-width:360px;width:100%;display:flex;flex-direction:column;gap:12px;text-align:center}
+.caixa h2{font-family:var(--display);font-weight:400;font-size:26px;margin:0;line-height:1.05;text-wrap:balance}
+.caixa p{margin:0;font-size:15px;line-height:1.45}
+.preco{font-family:var(--display);font-size:40px;color:var(--estrela);line-height:1}
+.mp{display:block;font:800 15px var(--body);letter-spacing:.04em;text-transform:uppercase;text-decoration:none;background:#009ee3;color:#fff;border-radius:999px;padding:13px 18px}
+.mp:hover{background:#0080c0}
+.mp:focus-visible{outline:2px solid var(--ouro);outline-offset:3px}
+.pix{display:flex;gap:6px;align-items:stretch}
+.pix code{flex:1;min-width:0;background:#fff;border:2px dashed var(--lona2);border-radius:10px;padding:8px;font:700 14px ui-monospace,monospace;overflow-wrap:anywhere;user-select:all}
+.caixa input{font:700 16px var(--body);border:2px solid var(--lona2);border-radius:10px;padding:10px;text-align:center;text-transform:uppercase;color:var(--lona);background:#fff}
+.msg{font-size:13px;font-weight:800;min-height:1em}
+.msg.erro{color:var(--estrela)}
+footer{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:14px;opacity:.85}
+button{font:800 14px var(--body);letter-spacing:.06em;text-transform:uppercase;background:var(--agua);color:var(--lona);border:0;border-radius:999px;padding:10px 18px;cursor:pointer}
+button.sec{background:var(--lona2);color:var(--creme)}
+button.ok{background:var(--verde)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--ouro);outline-offset:3px}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <header>
+    <div class="marca"><h1>Balão na <span>Estrela</span></h1><div class="tag">#fora13</div></div>
+    <div class="placar">
+      <div class="chip balao" id="chipB"><b id="restam">10</b><small>Balões</small></div>
+      <div class="chip"><b id="acertos">0</b><small>Acertos</small></div>
+      <div class="chip"><b id="mira">0%</b><small>Mira</small></div>
+    </div>
+  </header>
+  <div class="vida"><span>Estrela</span><div class="barra"><i id="vida"></i></div><span id="vidaTxt">100%</span></div>
+  <div class="palco">
+    <canvas id="jogo" aria-label="Toque na tela para jogar um balão de água na estrela vermelha"></canvas>
+
+    <div class="modal" id="loja" hidden>
+      <div class="caixa" role="dialog" aria-labelledby="lojaT">
+        <h2 id="lojaT">Acabaram os balões!</h2>
+        <p>A estrela ainda está de pé. Compre mais <b>10 balões</b> e termine o serviço.</p>
+        <div class="preco">R$ 1,00</div>
+        <a class="mp" href="https://mpago.la/2hjcWiH" target="_blank" rel="noopener">Pagar R$ 1 no Mercado Pago</a>
+        <p>Depois de pagar, digite abaixo o código de liberação que você recebe.</p>
+        <input id="codigo" placeholder="Código de liberação" autocomplete="off" aria-label="Código de liberação">
+        <div class="msg" id="msg"></div>
+        <button class="ok" id="liberar">Liberar balões</button>
+      </div>
+    </div>
+
+    <div class="modal" id="fim" hidden>
+      <div class="caixa" role="dialog" aria-labelledby="fimT">
+        <h2 id="fimT">Estrela encharcada!</h2>
+        <p id="fimTxt"></p>
+        <div class="tag">#fora13</div>
+        <button class="ok" id="denovo">Jogar de novo</button>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <span>Toque ou clique para jogar. Os 10 primeiros balões são de graça.</span>
+    <button id="zerar" class="sec">Recomeçar</button>
+  </footer>
+</div>
+
+<script>
+/* ===== CONFIGURAÇÃO: troque pelos seus dados ===== */
+const CONFIG={
+  linkPagamento:'https://mpago.la/2hjcWiH',
+  baloesGratis:10,
+  baloesPorCompra:10,
+  vidaEstrela:20,              // acertos para acabar com a estrela
+  codigos:['BALAO13','SPLASH22'] // códigos que você envia a quem pagar
+};
+(function(){
+  const $=id=>document.getElementById(id);
+  const cv=$('jogo'),g=cv.getContext('2d');
+  const reduz=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W,H,dpr,t=0,acertos=0,jogados=0,restam=CONFIG.baloesGratis,vida=CONFIG.vidaEstrela,compras=0,acabou=false;
+  const baloes=[],gotas=[],respingos=[],textos=[],cacos=[];
+  const alvo={x:0,y:0,r:0,dir:1,vel:1.6,tremor:0,escala:1};
+
+  function tam(){const b=cv.getBoundingClientRect();dpr=Math.min(devicePixelRatio||1,2);W=b.width;H=b.height;cv.width=W*dpr;cv.height=H*dpr;g.setTransform(dpr,0,0,dpr,0,0);
+    alvo.r=Math.min(W,H)*.17;alvo.y=H*.36;if(!alvo.x)alvo.x=W/2}
+  addEventListener('resize',tam);tam();
+
+  function estrela(cx,cy,R,rot){g.beginPath();for(let i=0;i<10;i++){const r=i%2?R*.42:R,a=-Math.PI/2+i*Math.PI/5+rot;g.lineTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r)}g.closePath()}
+  function desenhaAlvo(){
+    const tr=alvo.tremor>0?Math.sin(t*1.6)*alvo.tremor:0;
+    const cx=alvo.x+tr,cy=alvo.y,R=alvo.r*alvo.escala,rot=tr*.01;
+    if(R<2)return{cx,cy,R:0};
+    g.fillStyle='#6b4a2b';g.fillRect(cx-5,cy,10,H-cy);
+    const dano=1-vida/CONFIG.vidaEstrela;
+    g.save();estrela(cx,cy,R,rot);
+    g.fillStyle=`rgb(${Math.round(215-90*dano)},${Math.round(38+40*dano)},${Math.round(46+90*dano)})`;
+    g.fill();g.lineWidth=5;g.strokeStyle='#fff6dc';g.stroke();g.clip();
+    g.fillStyle='rgba(62,198,255,.4)';g.fillRect(cx-R,cy+R-(2*R*dano),2*R,2*R*dano);
+    g.restore();
+    g.fillStyle='#fff6dc';g.font=`400 ${R*.62}px "Bowlby One", Impact, sans-serif`;g.textAlign='center';g.textBaseline='middle';g.fillText('13',cx,cy+R*.06);
+    return {cx,cy,R};
+  }
+  function atualiza(){
+    $('restam').textContent=restam;$('acertos').textContent=acertos;
+    $('mira').textContent=jogados?Math.round(acertos/jogados*100)+'%':'0%';
+    $('chipB').classList.toggle('pouco',restam<=3);
+    const p=Math.max(0,vida/CONFIG.vidaEstrela);$('vida').style.width=p*100+'%';$('vidaTxt').textContent=Math.round(p*100)+'%';
+  }
+  function abrirLoja(){$('msg').textContent='';$('codigo').value='';$('loja').hidden=false}
+  function jogar(px,py){
+    if(acabou||!$('loja').hidden)return;
+    if(restam<=0){if(!baloes.length)abrirLoja();return}
+    restam--;jogados++;
+    baloes.push({sx:W/2,sy:H+20,tx:px,ty:py,k:0,dur:reduz?22:34,cor:Math.random()<.5?'#3ec6ff':'#7ee0ff'});atualiza();
+  }
+  function splash(x,y,acerto){
+    const n=reduz?12:28;for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,s=2+Math.random()*6;gotas.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-2,v:1})}
+    respingos.push({x,y,r:6,v:1});
+    if(acerto&&!acabou){acertos++;vida--;alvo.tremor=12;alvo.vel=Math.min(1.6+acertos*.12,5);
+      const f=['Splash!','Na mosca!','Molhou!','Encharcou!','Bem no 13!'];textos.push({x,y:y-30,s:f[Math.random()*f.length|0],v:1});
+      if(vida<=0)derrubar();}
+    else if(!acerto)textos.push({x,y:y-20,s:'Errou!',v:1,erro:true});
+    atualiza();
+    if(!acabou&&restam<=0&&!baloes.length)setTimeout(()=>{if(!acabou&&restam<=0)abrirLoja()},600);
+  }
+  function derrubar(){
+    acabou=true;
+    for(let i=0;i<(reduz?20:60);i++){const a=Math.random()*Math.PI*2,s=2+Math.random()*7;cacos.push({x:alvo.x,y:alvo.y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-3,rot:Math.random()*6,v:1})}
+    const enc=setInterval(()=>{alvo.escala*=.85;if(alvo.escala<.03){alvo.escala=0;clearInterval(enc)}},40);
+    $('fimTxt').textContent=`Você precisou de ${acertos} acertos e ${jogados} balões${compras?`, com ${compras} compra${compras>1?'s':''} de balões`:''}. Mira de ${Math.round(acertos/jogados*100)}%.`;
+    setTimeout(()=>{$('fim').hidden=false},1200);
+  }
+  function reiniciar(){acertos=jogados=compras=0;restam=CONFIG.baloesGratis;vida=CONFIG.vidaEstrela;acabou=false;alvo.vel=1.6;alvo.escala=1;
+    baloes.length=gotas.length=textos.length=respingos.length=cacos.length=0;$('fim').hidden=true;$('loja').hidden=true;atualiza()}
+
+  function quadro(){
+    t++;g.clearRect(0,0,W,H);
+    alvo.x+=alvo.dir*alvo.vel*(reduz?.5:1);
+    if(alvo.x>W-alvo.r-10){alvo.x=W-alvo.r-10;alvo.dir=-1}
+    if(alvo.x<alvo.r+10){alvo.x=alvo.r+10;alvo.dir=1}
+    alvo.tremor*=.9;
+    g.fillStyle='rgba(62,198,255,'+Math.min(.1+acertos*.02,.5)+')';g.fillRect(0,H-18,W,18);
+    const A=desenhaAlvo();
+    for(let i=respingos.length-1;i>=0;i--){const r=respingos[i];r.r+=3;r.v-=.04;if(r.v<=0){respingos.splice(i,1);continue}
+      g.strokeStyle=`rgba(191,240,255,${r.v})`;g.lineWidth=3;g.beginPath();g.arc(r.x,r.y,r.r,0,7);g.stroke()}
+    for(let i=baloes.length-1;i>=0;i--){const b=baloes[i];b.k++;const p=b.k/b.dur;
+      const x=b.sx+(b.tx-b.sx)*p,y=b.sy+(b.ty-b.sy)*p-Math.sin(p*Math.PI)*H*.18,e=1-p*.45;
+      g.fillStyle=b.cor;g.beginPath();g.ellipse(x,y,14*e,17*e,Math.sin(t*.2)*.3,0,7);g.fill();
+      g.fillStyle='rgba(255,255,255,.6)';g.beginPath();g.arc(x-4*e,y-6*e,4*e,0,7);g.fill();
+      if(p>=1){baloes.splice(i,1);splash(b.tx,b.ty,A.R>0&&Math.hypot(b.tx-A.cx,b.ty-A.cy)<A.R*.85)}}
+    for(let i=gotas.length-1;i>=0;i--){const d=gotas[i];d.x+=d.vx;d.y+=d.vy;d.vy+=.35;d.v-=.02;if(d.v<=0||d.y>H){gotas.splice(i,1);continue}
+      g.fillStyle=`rgba(126,224,255,${d.v})`;g.beginPath();g.arc(d.x,d.y,3,0,7);g.fill()}
+    for(let i=cacos.length-1;i>=0;i--){const c=cacos[i];c.x+=c.vx;c.y+=c.vy;c.vy+=.3;c.rot+=.2;c.v-=.012;if(c.v<=0){cacos.splice(i,1);continue}
+      g.save();g.globalAlpha=c.v;g.translate(c.x,c.y);g.rotate(c.rot);g.fillStyle='#d7262e';g.fillRect(-5,-5,10,10);g.restore()}
+    if(A.R>0&&vida<CONFIG.vidaEstrela&&Math.random()<.25)gotas.push({x:A.cx+(Math.random()-.5)*A.R,y:A.cy+A.R*.5,vx:0,vy:1,v:.9});
+    for(let i=textos.length-1;i>=0;i--){const tx=textos[i];tx.y-=1.2;tx.v-=.018;if(tx.v<=0){textos.splice(i,1);continue}
+      g.globalAlpha=tx.v;g.fillStyle=tx.erro?'#fff6dc':'#ffc93c';g.font='400 26px "Bowlby One", Impact, sans-serif';g.textAlign='center';g.fillText(tx.s,tx.x,tx.y);g.globalAlpha=1}
+    if(!jogados){g.fillStyle='rgba(255,246,220,.85)';g.font='800 18px Nunito, system-ui, sans-serif';g.textAlign='center';g.fillText('Toque para jogar o balão',W/2,H-40)}
+    requestAnimationFrame(quadro);
+  }
+  quadro();atualiza();
+  cv.addEventListener('pointerdown',e=>{const b=cv.getBoundingClientRect();jogar(e.clientX-b.left,e.clientY-b.top)});
+  $('zerar').onclick=reiniciar;$('denovo').onclick=reiniciar;
+  $('liberar').onclick=()=>{const c=$('codigo').value.trim().toUpperCase();
+    if(CONFIG.codigos.includes(c)){restam+=CONFIG.baloesPorCompra;compras++;$('loja').hidden=true;atualiza();textos.push({x:W/2,y:H/2,s:`+${CONFIG.baloesPorCompra} balões!`,v:1})}
+    else{$('msg').className='msg erro';$('msg').textContent='Código inválido. Confira o código recebido após o Pix.'}};
+  $('codigo').addEventListener('keydown',e=>{if(e.key==='Enter')$('liberar').click()});
+})();
+</script>
+</body>
+</html>

@@ -146,6 +146,19 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
 .pay-btn{margin-top:6px;width:100%;padding:16px;font-size:1.05rem}
 .pay-btn[disabled]{opacity:.45;cursor:not-allowed;filter:none}
 .paynote{color:var(--mut);font-size:.85rem;text-align:center;margin-top:10px}
+.cup{margin-top:18px;border:1px dashed var(--line);border-radius:14px;background:var(--bg)}
+.cup summary{cursor:pointer;list-style:none;padding:14px 16px;font-weight:600;display:flex;align-items:center;gap:8px}
+.cup summary::-webkit-details-marker{display:none}
+.cup summary::after{content:'+';margin-left:auto;font-size:1.3rem;line-height:1;color:var(--mut)}
+.cup[open] summary::after{content:'−'}
+.cup summary:focus-visible{outline:3px solid var(--yel);outline-offset:2px;border-radius:14px}
+.cup .cbody{padding:0 16px 16px}
+.cup .crow{display:flex;gap:10px}
+.cup input{flex:1;min-width:0;height:46px;border:1px solid var(--line);border-radius:12px;padding:0 14px;background:var(--card);color:var(--fg);font:600 1rem var(--fb);text-transform:uppercase;letter-spacing:.04em}
+.cup input:focus-visible{outline:3px solid var(--yel);outline-offset:1px;border-color:var(--blue)}
+.cup .btn{padding:0 20px;height:46px;white-space:nowrap}
+.cmsg{min-height:1.3em;margin-top:10px;font-size:.92rem;color:#b3261e}.cmsg.ok{color:#1b7a3a}
+.ln.desc{color:#1b7a3a;font-weight:600}
 @media (max-width:820px){.fg{grid-template-columns:1fr 1fr}.pay{padding:20px 16px}}
 @media (prefers-reduced-motion:no-preference){.btn{transition:filter .15s}}
 .tabela{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 10px 30px rgba(27,34,48,.06)}
@@ -203,7 +216,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
     <div class="ln"><span id="l-instagram">Instagram</span><span id="v-instagram">R$ 0,00</span></div>
     <div class="ln"><span id="l-personalizada">Personalizada</span><span id="v-personalizada">R$ 0,00</span></div>
    </dl>
-   <div class="ln" style="margin-top:12px"><span id="l-sub">Produtos</span><span id="t-sub">R$ 0,00</span></div><div class="ln" style="margin-top:8px"><span>Frete</span><span id="v-frete">a calcular</span></div><div class="tot"><span id="n-total">0 placas</span><b id="t-total">R$ 0,00</b></div>
+   <div class="ln" style="margin-top:12px"><span id="l-sub">Produtos</span><span id="t-sub">R$ 0,00</span></div><div class="ln desc" id="ln-cupom" style="margin-top:8px;display:none"><span id="l-cupom">Cupom</span><span id="v-cupom">- R$ 0,00</span></div><div class="ln" style="margin-top:8px"><span>Frete</span><span id="v-frete">a calcular</span></div><div class="tot"><span id="n-total">0 placas</span><b id="t-total">R$ 0,00</b></div>
    <p class="hint" id="faixa"></p>
    <p class="hint">O frete é calculado na hora, assim que você digita o CEP.</p>
    <div class="btns"><a class="btn" href="#finalizar" id="go">Finalizar pedido</a><a class="btn ghost" id="wa" href="#simulador" target="_blank" rel="noopener">Falar no WhatsApp</a></div>
@@ -230,6 +243,13 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
    <button class="btn ghost" type="button" id="btn-frete" style="display:none">Calcular frete</button>
   </form>
   <div id="opts" class="opts" role="radiogroup" aria-label="Opções de entrega"></div>
+  <details class="cup" id="cup">
+   <summary>Tem cupom de desconto?</summary>
+   <div class="cbody">
+    <div class="crow"><input id="f-cupom" maxlength="30" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Digite o código" aria-label="Código do cupom"><button class="btn ghost" type="button" id="btn-cupom">Aplicar</button></div>
+    <p class="cmsg" id="cmsg" role="status"></p>
+   </div>
+  </details>
   <p id="msg" class="msg" role="alert"></p>
   <button class="btn pay-btn" type="button" id="btn-pagar" disabled>Pagar com Mercado Pago</button>
   <p class="paynote">Você será levado ao ambiente seguro do Mercado Pago. Pix ou cartão.</p>
@@ -343,7 +363,8 @@ var WHATSAPP="5585997307346";
  // Tabela de preços por quantidade (mesma do servidor): preços fechados em ,00 / ,49 / ,99
  var FX=[{m:150,p:{google:16.99,gbr:16.99,gqa:16.99,gqp:16.99,iqr:19.49,iqp:19.49,instagram:19.49,personalizada:23.49}},{m:100,p:{google:17.49,gbr:17.49,gqa:17.49,gqp:17.49,iqr:19.99,iqp:19.99,instagram:19.99,personalizada:24.49}},{m:50,p:{google:17.99,gbr:17.99,gqa:17.99,gqp:17.99,iqr:20.49,iqp:20.49,instagram:20.49,personalizada:25.00}}];
  function pu(k,n){for(var i=0;i<FX.length;i++)if(n>=FX[i].m)return FX[i].p[k];return P[k]}
- var frete=null,opcoes=[];
+ var frete=null,opcoes=[],cupom=null;
+ function descCupom(tot){if(!cupom)return 0;var c=Math.round(tot*100),d=cupom.tipo==='pct'?Math.round(c*cupom.valor/100):Math.round(cupom.valor*100);return Math.max(0,Math.min(d,c-100))/100}
  var $=function(id){return document.getElementById(id)};
  function brl(v){return 'R$ '+v.toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.')}
  function q(k){var v=parseInt($('q-'+k).value,10);if(isNaN(v)||v<0)v=0;if(v>2000)v=2000;return v}
@@ -361,7 +382,9 @@ var WHATSAPP="5585997307346";
   $('n-total').textContent=n+(n===1?' placa':' placas');
   $('t-sub').textContent=brl(tot);
   $('v-frete').textContent=frete?brl(frete.preco):'a calcular';
-  $('t-total').textContent=brl(tot+(frete?frete.preco:0));
+  var dc=descCupom(tot);
+  $('ln-cupom').style.display=dc>0?'':'none';if(dc>0){$('l-cupom').textContent='Cupom '+cupom.codigo;$('v-cupom').textContent='- '+brl(dc)}
+  $('t-total').textContent=brl(tot-dc+(frete?frete.preco:0));
   $('wa').href='https://wa.me/'+WHATSAPP.replace(/\D/g,'')+'?text='+encodeURIComponent(resumo());
   sq();
  }
@@ -402,13 +425,27 @@ var WHATSAPP="5585997307346";
    var mi=0;opcoes.forEach(function(o,i){if(o.preco<opcoes[mi].preco)mi=i});var ins=box.querySelectorAll('input');if(ins[mi]){ins[mi].checked=true;frete=opcoes[mi];$('btn-pagar').disabled=false;msg('Entrega mais barata já selecionada. Você pode trocar acima.',true)}calc();
   }).catch(function(e){msg(e.message)}).then(function(){btn.disabled=false;btn.textContent='Calcular frete'})
  });
+ function cmsg(t,ok){var m=$('cmsg');m.textContent=t||'';m.className='cmsg'+(ok?' ok':'')}
+ function aplicaCupom(codigo,silencioso){
+  var b=$('btn-cupom');b.disabled=true;b.textContent='Aplicando…';
+  return post('/api/cupom',{codigo:codigo,itens:itens()}).then(function(j){
+   cupom={codigo:j.codigo,tipo:j.tipo,valor:j.valor};calc();
+   cmsg('Cupom '+j.codigo+' aplicado: '+(j.tipo==='pct'?j.valor+'% de desconto nos produtos.':brl(j.valor)+' de desconto nos produtos.'),true);
+  }).catch(function(e){if(!silencioso){cupom=null;calc()}cmsg(e.message)}).then(function(){b.disabled=false;b.textContent='Aplicar'})
+ }
+ $('btn-cupom').addEventListener('click',function(){
+  var c=$('f-cupom').value.trim();
+  if(!c){cmsg('Digite o código do cupom.');return}
+  aplicaCupom(c)
+ });
+ $('f-cupom').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();$('btn-cupom').click()}});
  $('btn-pagar').addEventListener('click',function(){
   msg('');
   var cli={nome:$('f-nome').value,email:$('f-email').value,whatsapp:$('f-whats').value};
   var end={cep:digits($('f-cep').value),rua:$('f-rua').value,numero:$('f-num').value,complemento:$('f-comp').value,bairro:$('f-bairro').value,cidade:$('f-cidade').value,uf:$('f-uf').value};
   if(!frete){msg('Calcule o frete e escolha a entrega.');return}
   var btn=this;btn.disabled=true;btn.textContent='Abrindo o Mercado Pago…';
-  post('/api/checkout',{cliente:cli,endereco:end,itens:itens(),freteId:frete.id}).then(function(j){window.location.href=j.url}).catch(function(e){msg(e.message);btn.disabled=false;btn.textContent='Pagar com Mercado Pago'})
+  post('/api/checkout',{cliente:cli,endereco:end,itens:itens(),freteId:frete.id,cupom:cupom?cupom.codigo:''}).then(function(j){window.location.href=j.url}).catch(function(e){msg(e.message);btn.disabled=false;btn.textContent='Pagar com Mercado Pago'})
  });
  if(/pagamento=falhou/.test(location.search))msg('O pagamento não foi concluído. Você pode tentar de novo.');
  calc(true);

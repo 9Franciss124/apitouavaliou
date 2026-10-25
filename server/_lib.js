@@ -41,6 +41,29 @@ function subtotal(itens) {
   return c / 100;
 }
 
+// Cupons: variável de ambiente CUPONS, ex.: "BEMVINDO=10%,FRETE5=R$5". Valor com % = percentual; sem % = reais.
+// O desconto vale só sobre os produtos (não sobre o frete) e nunca zera o pedido.
+function lerCupons() {
+  const out = {};
+  String(process.env.CUPONS || '').split(',').forEach((par) => {
+    const m = par.trim().match(/^([A-Za-z0-9_-]{2,30})\s*=\s*(?:R\$\s*)?(\d+(?:[.,]\d+)?)\s*(%?)$/);
+    if (!m) return;
+    const valor = Number(m[2].replace(',', '.'));
+    if (!(valor > 0) || (m[3] && valor > 90)) return;
+    out[m[1].toUpperCase()] = { tipo: m[3] ? 'pct' : 'fixo', valor };
+  });
+  return out;
+}
+// Retorna { codigo, tipo, valor, descontoCent } ou null se o cupom não existe.
+function aplicarCupom(codigo, subtotalReais) {
+  const c = lerCupons()[String(codigo || '').trim().toUpperCase()];
+  if (!c) return null;
+  const sub = centavos(subtotalReais);
+  let d = c.tipo === 'pct' ? Math.round((sub * c.valor) / 100) : centavos(c.valor);
+  d = Math.max(0, Math.min(d, sub - 100));
+  return { codigo: String(codigo).trim().toUpperCase(), tipo: c.tipo, valor: c.valor, descontoCent: d };
+}
+
 const soDigitos = (s) => String(s || '').replace(/\D/g, '');
 const cepValido = (s) => soDigitos(s).length === 8;
 
@@ -98,4 +121,4 @@ async function cotarFrete(cepDestino, itens, total) {
   return lista;
 }
 
-module.exports = { PRECOS, NOMES, FAIXAS, precoUnit, lerItens, subtotal, soDigitos, cepValido, json, cotarFrete, centavos };
+module.exports = { lerCupons, aplicarCupom, centavosUnit, PRECOS, NOMES, FAIXAS, precoUnit, lerItens, subtotal, soDigitos, cepValido, json, cotarFrete, centavos };

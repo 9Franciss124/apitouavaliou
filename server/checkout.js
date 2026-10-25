@@ -1,6 +1,6 @@
 // POST /api/checkout  { cliente, endereco, itens, freteId }  ->  { url }
 // Recalcula tudo no servidor (preços e frete) antes de criar a preferência no Mercado Pago.
-const { PRECOS, NOMES, precoUnit, lerItens, subtotal, soDigitos, cepValido, json, cotarFrete } = require('./_lib');
+const { PRECOS, NOMES, centavosUnit, lerItens, subtotal, soDigitos, cepValido, json, cotarFrete, aplicarCupom } = require('./_lib');
 const db = require('./_db');
 
 const emailOk = (s) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(s || ''));
@@ -38,9 +38,31 @@ exports.handler = async (event) => {
   if (!opcao) return json(400, { erro: 'Opção de frete indisponível. Calcule o frete de novo.' });
 
   const pedido = 'AA-' + Date.now().toString(36).toUpperCase();
-  const items = Object.keys(PRECOS).filter((k) => itens[k] > 0).map((k) => ({
-    id: k, title: NOMES[k], quantity: itens[k], unit_price: precoUnit(k, total), currency_id: 'BRL'
-  }));
+  // Cupom (opcional): o desconto é recalculado aqui; o que vem do navegador não vale.
+  let cupom = null;
+  if (b.cupom) {
+    cupom = aplicarCupom(b.cupom, subtotal(itens));
+    if (!cupom) return json(400, { erro: 'Cupom inválido ou expirado.' });
+  }
+  const desconto = cupom ? cupom.descontoCent : 0;
+  const subCent = Math.round(subtotal(itens) * 100);
+  const alvo = subCent - desconto;
+  const items = [];
+  let resto = alvo;
+  const chaves = Object.keys(PRECOS).filter((k) => itens[k] > 0);
+  if (!desconto) {
+    chaves.forEach((k) => items.push({ id: k, title: NOMES[k], quantity: itens[k], unit_price: centavosUnit(k, total) / 100, currency_id: 'BRL' }));
+  } else {
+    // Mercado Pago não aceita item negativo: reduz o preço unitário proporcionalmente e reparte os centavos que sobram.
+    const ratio = alvo / subCent;
+    const base = chaves.map((k) => ({ k, q: itens[k], u: Math.floor(centavosUnit(k, total) * ratio) }));
+    resto = alvo - base.reduce((t, x) => t + x.q * x.u, 0);
+    base.forEach((x) => {
+      const extra = Math.min(resto, x.q); resto -= extra;
+      if (x.q - extra > 0) items.push({ id: x.k, title: NOMES[x.k], quantity: x.q - extra, unit_price: x.u / 100, currency_id: 'BRL' });
+      if (extra > 0) items.push({ id: x.k + '-b', title: NOMES[x.k], quantity: extra, unit_price: (x.u + 1) / 100, currency_id: 'BRL' });
+    });
+  }
   const complemento = txt(e.complemento, 60);
   const preference = {
     items,
@@ -60,7 +82,8 @@ exports.handler = async (event) => {
     notification_url: site + '/api/webhook',
     metadata: {
       pedido, nome, email, whatsapp: tel, cep: soDigitos(e.cep), endereco: `${rua}, ${numero}${complemento ? ' - ' + complemento : ''} - ${bairro} - ${cidade}/${uf}`,
-      itens, frete_servico: opcao.nome, frete_valor: opcao.preco, produtos_valor: subtotal(itens)
+      itens, frete_servico: opcao.nome, frete_valor: opcao.preco, produtos_valor: subtotal(itens),
+      cupom: cupom ? cupom.codigo : '', desconto: desconto / 100
     }
   };
 
@@ -79,7 +102,8 @@ exports.handler = async (event) => {
           id: pedido, criado: Date.now(), status: 'aguardando', nome, email, whatsapp: tel,
           cep: soDigitos(e.cep), endereco: preference.metadata.endereco, itens,
           frete_servico: opcao.nome, frete_valor: opcao.preco, produtos_valor: subtotal(itens),
-          total: Math.round((subtotal(itens) + opcao.preco) * 100) / 100,
+          cupom: cupom ? cupom.codigo : '', desconto: desconto / 100,
+          total: Math.round((alvo / 100 + opcao.preco) * 100) / 100,
           enviado: false, rastreio: ''
         };
         await db.pipeline([['SET', 'ped:' + pedido, JSON.stringify(reg)], ['ZADD', 'peds', String(reg.criado), pedido]]);

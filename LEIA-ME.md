@@ -30,6 +30,7 @@ O site calcula o frete pelo CEP (Melhor Envio) e leva o cliente para pagar no Me
 | `ME_CONTATO_EMAIL` | e-mail de contato (o Melhor Envio exige) |
 | `ORIGEM_CEP` | CEP de onde você envia as placas |
 | `SITE_URL` | endereço final do site, ex.: https://apitouavaliou.vercel.app (sem barra no final) |
+| `CUPONS` (opcional) | cupons de desconto, separados por vírgula: `BEMVINDO=10%,CUPOM5=R$5`. Com `%` é percentual (máx. 90%); sem `%` é valor em reais (use ponto nos centavos, ex.: `7.50`). O desconto vale só nos produtos, não no frete |
 | `PESO_PLACA_KG` | peso real de 1 placa embalada, ex.: 0.15 (pese uma na balança) |
 | `COMPRIMENTO_CM`, `LARGURA_CM`, `ALTURA_CM` | medidas de 1 placa embalada (padrão: 20, 15, 3) |
 

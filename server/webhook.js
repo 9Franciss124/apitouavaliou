@@ -53,7 +53,7 @@ exports.handler = async (event) => {
         const atual = await db.cmd(['GET', 'ped:' + pedidoId]);
         if (atual) reg = JSON.parse(atual);
         if (!reg) { // pedido não estava salvo (ex.: banco ligado depois): recria pelos metadados
-          reg = { id: pedidoId, criado: Date.now(), nome: m.nome, email: m.email, whatsapp: m.whatsapp, cep: m.cep, endereco: m.endereco, itens: m.itens || {}, frete_servico: m.frete_servico, frete_valor: Number(m.frete_valor) || 0, produtos_valor: Number(m.produtos_valor) || 0, total: Number(p.transaction_amount) || 0, enviado: false, rastreio: '' };
+          reg = { id: pedidoId, criado: Date.now(), nome: m.nome, email: m.email, whatsapp: m.whatsapp, cep: m.cep, endereco: m.endereco, itens: m.itens || {}, frete_servico: m.frete_servico, frete_valor: Number(m.frete_valor) || 0, produtos_valor: Number(m.produtos_valor) || 0, cupom: m.cupom || '', desconto: Number(m.desconto) || 0, total: Number(p.transaction_amount) || 0, enviado: false, rastreio: '' };
           await db.cmd(['ZADD', 'peds', String(reg.criado), pedidoId]);
         }
         if (st === 'pago' && reg.pago_em) primeiraVez = false;
@@ -83,7 +83,7 @@ exports.handler = async (event) => {
           'Entrega: ' + m.endereco + ' (CEP ' + m.cep + ')',
           'Google preta 10x15: ' + (it.google || 0) + ' | Google azul 10x15: ' + (it.gaz || 0) + ' | Google branca 10x15: ' + (it.gbr || 0) + ' | Google branca 10x10: ' + (it.gqa || 0) + ' | Google preta 10x10: ' + (it.gqp || 0) + ' | Insta branca 10x10: ' + (it.iqr || 0) + ' | Insta preta 10x10: ' + (it.iqp || 0) + ' | Instagram: ' + (it.instagram || 0) + ' | Personalizada: ' + (it.personalizada || 0),
           'Frete: ' + m.frete_servico + ' - R$ ' + m.frete_valor,
-          'Produtos: R$ ' + m.produtos_valor, 'Total pago: R$ ' + p.transaction_amount
+          'Produtos: R$ ' + m.produtos_valor + (m.cupom ? ' (cupom ' + m.cupom + ': -R$ ' + m.desconto + ')' : ''), 'Total pago: R$ ' + p.transaction_amount
         ];
         await enviar({ to: [process.env.NOTIFY_EMAIL], subject: 'Pedido pago ' + (pedidoId || ''), text: linhas.join('\n') });
       }
